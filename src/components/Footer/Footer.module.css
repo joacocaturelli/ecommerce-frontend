@@ -1,5 +1,6 @@
 .footer {
-  padding: 1.5rem 0 2rem;
-  color: #78716c;
+  padding: var(--font-xl) 0 var(--font-2xl);
+  color: var(--font-color-text);
   text-align: center;
+  min-width: 450px;
 }
