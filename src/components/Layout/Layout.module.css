@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  margin: 0 auto;    
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  background: linear-gradient(0deg, white 0%, var(--color-secondary) 80%, var(--color-secondary) 100%);
+}
