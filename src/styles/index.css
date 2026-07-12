@@ -1,6 +1,4 @@
-/* =========================================
-   RESET
-========================================= */
+/* Reset */
 
 *,
 *::before,
@@ -10,42 +8,16 @@
   padding: 0;
 }
 
-html {
-  font-family: var(--font-family);
-  scroll-behavior: smooth;
-}
-
 body {
   min-height: 100vh;
-  background: var(--color-background);
-  color: var(--color-text);
   line-height: 1.5;
-  text-rendering: optimizeLegibility;
+  font-family: "Inter", "Manrope" ;
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* =========================================
-   ELEMENTOS
-========================================= */
-
-img {
-  display: block;
+img,
+picture {
   max-width: 100%;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-ul,
-ol {
-  list-style: none;
+  display: block;
 }
 
 button,
@@ -55,141 +27,55 @@ select {
   font: inherit;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-  background: none;
+ul,
+ol {
+  list-style: none;
 }
 
-input,
-textarea,
-select {
-  outline: none;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: var(--color-primary);
+.button, .button-xs {
+ padding: 15px 25px;
+ border: unset;
+ border-radius: 999px;
+ color: black;
+ z-index: 1;
+ background: var(--color-secondary);
+ position: relative;
+ font-weight: 600;
+ font-size: 17px;
+ transition: all 250ms;
+ overflow: hidden;
 }
 
-/* =========================================
-   CONTENEDOR
-========================================= */
-
-.container {
-  width: min(90%, var(--container-width));
-  margin-inline: auto;
+.button-xs{
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: 2px solid black;
 }
 
-/* =========================================
-   BOTONES
-========================================= */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-
-  padding: .8rem 1.5rem;
-
-  border-radius: var(--radius-md);
-
-  transition: var(--transition);
-
-  font-weight: 600;
+.button::before, .button-xs::before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 0;
+ border-radius: 15px;
+ background-color: var(--color-primary);
+ z-index: -1;
+ transition: all 250ms;
+ 
 }
 
-.btn-primary {
-  background: var(--color-primary);
-  color: white;
-}
+.button:hover, .button-xs:hover {
+ color: white;
+ border: 2px solid var(--color-primary);
+} 
 
-.btn-primary:hover {
-  background: var(--color-primary-hover);
-}
-
-.btn-secondary {
-  background: var(--color-secondary);
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: var(--color-secondary-hover);
-}
-
-/* =========================================
-   TARJETAS
-========================================= */
-
-.card {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  padding: var(--space-lg);
-}
-
-/* =========================================
-   TITULOS
-========================================= */
-
-h1 {
-  font-size: var(--font-3xl);
-}
-
-h2 {
-  font-size: var(--font-2xl);
-}
-
-h3 {
-  font-size: var(--font-xl);
-}
-
-p {
-  color: var(--color-text-light);
-}
-
-/* =========================================
-   UTILIDADES
-========================================= */
-
-.flex {
-  display: flex;
-}
-
-.grid {
-  display: grid;
-}
-
-.hidden {
-  display: none;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mt-1 {
-  margin-top: var(--space-sm);
-}
-
-.mt-2 {
-  margin-top: var(--space-md);
-}
-
-.mt-3 {
-  margin-top: var(--space-lg);
-}
-
-.mb-1 {
-  margin-bottom: var(--space-sm);
-}
-
-.mb-2 {
-  margin-bottom: var(--space-md);
-}
-
-.mb-3 {
-  margin-bottom: var(--space-lg);
+.button:hover::before, .button-xs:hover::before {
+ width: 100%;
 }
