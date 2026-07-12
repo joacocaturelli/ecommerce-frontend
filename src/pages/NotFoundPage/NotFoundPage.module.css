@@ -1,0 +1,17 @@
+.page {
+  padding-bottom: 3rem;
+  flex: 1;
+  padding: 0 20px;
+}
+
+.notFound{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.code {
+  color: #ea580c;
+  font-size: 4rem;
+  font-weight: 800;
+}
