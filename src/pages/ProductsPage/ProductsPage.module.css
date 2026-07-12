@@ -1,0 +1,25 @@
+.page {
+  padding-bottom: 3rem;
+  flex: 1;
+  padding: 0 20px;
+}
+
+.hero {
+  margin: var(--space-xl) var(--space-md);
+  min-width: 380px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.input {
+  width: min(420px, 100%);
+  padding: 0.85rem 1rem;
+  border: 1px solid #fdba74;
+  border-radius: 999px;
+  outline: none;
+}
