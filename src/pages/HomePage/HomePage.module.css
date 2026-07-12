@@ -1,0 +1,58 @@
+.page {
+  padding-bottom: 3rem;
+  flex: 1;
+  padding: 0 20px;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.19);
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-2xl);
+  margin: var(--space-xl) var(--space-md);
+  padding: var(--space-2xl) var(--space-xl);
+  border-radius: 25px;
+  min-height: 500px;
+  min-width: 380px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset
+  ;
+}
+
+.infoContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 348px;
+  flex: 3;
+}
+
+.title{
+  line-height: 1.1;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  margin: var(--space-md) 0;
+  max-width: 75%;
+}
+
+.text{
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  max-width: 90%;
+}
+
+.linkContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  flex: 1;
+  min-width: 31%;
+}
+
+.text2{
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  font-weight: bold;
+  text-align: justify;
+}
