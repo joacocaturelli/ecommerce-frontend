@@ -5,7 +5,6 @@ function ProductCard({product}) {
   return (
     <article className={styles.card}>
       <div className={styles.productHeader}>
-        <span className={styles.tag}>{product.tag}</span>
         <p className={product.stock > 0 ? styles.stockOk : styles.stockNo}>
           {product.stock > 0 ? 'En Stock' : 'Sin Stock'}
         </p>
