@@ -39,7 +39,7 @@ a {
 
 .button, .button-xs {
  padding: 15px 25px;
- border: unset;
+ border: 2px solid var(--color-secondary);
  border-radius: 999px;
  color: black;
  z-index: 1;
@@ -68,7 +68,6 @@ a {
  background-color: var(--color-primary);
  z-index: -1;
  transition: all 250ms;
- 
 }
 
 .button:hover, .button-xs:hover {
