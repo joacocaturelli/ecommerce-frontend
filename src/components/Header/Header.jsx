@@ -18,6 +18,16 @@ function Header () {
         >
           Colección
         </NavLink>
+        <NavLink to='/login' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          Login
+        </NavLink>
+        <NavLink to='/register' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          Register
+        </NavLink>
       </nav>
     </header>
   )
