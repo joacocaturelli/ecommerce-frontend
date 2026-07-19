@@ -1,47 +1,34 @@
-import styles from "./ProductsPage.module.css"
+import { useState, useRef, useEffect } from "react";
+import { useProducts } from "../../hooks/useProducts.js";
 import ProductGrid from "../../components/ProductGrid/ProductGrid.jsx"
-import { useEffect, useState } from "react"
-import { getProducts } from "../../api/products.js"
 import StatusMessage from "../../components/StatusMessage/StatusMessage.jsx"
+import styles from "./ProductsPage.module.css"
 
 function ProductsPage() {
+  const {products, loading, error} = useProducts() // Importamos las variables del hook
+  const labelInputRef = useRef(null) // Creamos la variable para el hook
+  const [search, setSearch] = useState(""); // Estado para el buscador de productos
 
-  const [products, setProducts] = useState([]) // Estado para el array de productos
-  const [loading, setLoading] = useState(false) // Estado para Loading
-  const [error, setError] = useState(null) // Estado para el manejo de errores
-  const [search, setSearch] = useState('')
-
-  useEffect(() => {
-    async function showProducts() {
-      try {
-        setLoading(true)
-
-        const data = await getProducts() // Traemos los productos
-        setProducts(data) // Los guardamos en products
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false) // Indicamos en el estado de loading que no esta cargando
-      }
-    }
-    showProducts()
-  }, []) // Solo se ejecuta useEffect al montar ProductsPage (solo una vez)
-
+  // Filtramos lo que busca el usuario con el array de productos
   const visibleProducts = products.filter(
     (product) => product.name.toLowerCase().includes(search.toLowerCase())
   )
 
+  useEffect(() => {
+    labelInputRef.current?.focus()
+  },[])
+
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
-        <label className={styles.label} htmlFor="search">
+        <label className={styles.label} htmlFor="search" ref={labelInputRef}>
           Buscar productos
         </label>
         <input 
           className={styles.input} 
           type="text" 
           id="search" 
-          placeholder="Escribe para filtrar por nombre o categoria..." 
+          placeholder="Buscar productos..." 
           value={search}
           onChange={(evento) => setSearch(evento.target.value)}
         />
