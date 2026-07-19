@@ -1,15 +1,14 @@
 import { useParams } from "react-router-dom";
-import { getProductById } from "../../api/products";
-import { useState, useEffect } from "react";
-import styles from './ProductDetailPage.module.css'
+import { useState } from "react";
+import { useProduct } from "../../hooks/useProduct";
+import ReviewList from "../../components/ReviewList/ReviewList";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
+import styles from './ProductDetailPage.module.css'
 
 function ProductDetailPage() {
   const { productId } = useParams()
-  
-  const [product, setProduct] = useState(null) // Estado para el array de productos
-  const [loading, setLoading] = useState(false) // Estado para Loading
-  const [error, setError] = useState(null) // Estado para el manejo de errores
+  const {product, loading, error} = useProduct(productId)
+
   const [count, setCount] = useState(1)
 
   const restar = () => {
@@ -17,24 +16,7 @@ function ProductDetailPage() {
       setCount(count - 1)
     }
   }
-
-  useEffect(() => {
-    async function showProduct() {
-      try {
-        setLoading(true)
-
-        const data = await getProductById(productId) // Traemos el producto
-        setProduct(data) // Lo guardamos en products
-
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false) // Indicamos en el estado de loading que no esta cargando
-      }
-    }
-    showProduct()
-  }, [productId]) // Solo se ejecuta useEffect al montar ProductsPage (solo una vez)
-
+  
   if (loading) {
     return (
       <main className={styles.page}>
@@ -100,6 +82,7 @@ function ProductDetailPage() {
           <button className={styles.btnCart2}>Añadir a la wishlist</button>
         </div>
       </div>
+      <ReviewList productId={productId}/>
     </main>
   )
 }
