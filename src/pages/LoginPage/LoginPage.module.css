@@ -1,0 +1,33 @@
+.loginContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.span {
+  padding-left: 18px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 24px;
+  padding: 8px 16px;
+}
+
+.link {
+  border-bottom: 2px solid black;
+}
+
+.link:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}

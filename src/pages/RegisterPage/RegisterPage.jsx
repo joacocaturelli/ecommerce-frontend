@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/auth";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
-import styles from './RegisterPage.module.css'
+import Button from "../../components/Button/Button";
+import styles from './RegisterPage.module.css';
 
 function RegisterPage() {
   const navigate = useNavigate()
@@ -51,47 +52,49 @@ function RegisterPage() {
     }
   }
   return (
-    <main>
-      <section>
-        <p>Register</p>
-        <h2>Crear una cuenta</h2>
+    <main className="page">
+      <section className="container">
+        <div className={styles.registerContainer}>
+          <h2>Crear una cuenta</h2>
 
-        <form onSubmit={handleSumbit}>
-          <label>
-            <span>Email</span>
-            <input 
-              ref={emailInputRef}
-              type="email" 
-              name="email" 
-              value={formData.email} 
-              placeholder="tu@email.com" 
-              onChange={handleChange}
-              disabled={isSubmitting}
+          <form onSubmit={handleSumbit} className={styles.registerForm}>
+            <label>
+              <span className={styles.span}>Email:</span>
+              <input 
+                className={styles.input}
+                ref={emailInputRef}
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                placeholder="tu@email.com" 
+                onChange={handleChange}
+                disabled={isSubmitting}
+              />
+            </label>
+
+            <label>
+              <span className={styles.span}>Password:</span>
+              <input 
+                className={styles.input}
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                placeholder="*********" 
+                onChange={handleChange}
+                disabled={isSubmitting}
+              />
+            </label>
+
+            <Button type="submit" disabled={isSubmitting}>Registrarse</Button>
+          </form>
+
+          {error && (
+            <StatusMessage 
+              title='Error al ingresar a la aplicacion'
+              description={error}
             />
-          </label>
-
-          <label>
-            <span>Password</span>
-            <input type="password" 
-              name="password" 
-              value={formData.password} 
-              placeholder="*********" 
-              onChange={handleChange}
-              disabled={isSubmitting}
-            />
-          </label>
-
-          <button type="submit" disabled={isSubmitting}>
-            Registrarse
-          </button>
-        </form>
-
-        {error && (
-          <StatusMessage 
-            title='Error al ingresar a la aplicacion'
-            description={error}
-          />
-        )}
+          )}
+        </div>
       </section>
     </main>
   )
