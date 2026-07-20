@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useProduct } from "../../hooks/useProduct";
+import Button from "../../components/Button/Button";
 import ReviewList from "../../components/ReviewList/ReviewList";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import styles from './ProductDetailPage.module.css'
@@ -78,10 +79,13 @@ function ProductDetailPage() {
             <span className={styles.quantity}>{count}</span>
             <button className={styles.btnCart} onClick={() => setCount(count + 1)}>+</button>
           </div>
-          <button className={styles.btnCart1}>Añadir al carrito</button>
-          <button className={styles.btnCart2}>Añadir a la wishlist</button>
+          <div className={styles.btnCartContainer}>
+            <Button>Añadir al carrito </Button>
+            <Button>Añadir a la wishlist</Button>
+          </div>
         </div>
       </div>
+      
       <ReviewList productId={productId}/>
     </main>
   )
