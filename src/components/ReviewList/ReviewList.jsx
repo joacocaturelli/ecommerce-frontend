@@ -39,7 +39,7 @@ function ReviewList({ productId }) {
         <div className={styles.container}>
           <StatusMessage 
             title='Sin Reviews'
-            description='La pelicula existe, pero todavia no tiene valoraciones'
+            description='El producto, pero todavia no tiene valoraciones'
           />
         </div>
       </main>
@@ -47,12 +47,12 @@ function ReviewList({ productId }) {
   }
 
   return (
-    <section>
+    <section className='container'>
       <h3>Reviews</h3>
-      <div>
+      <div className={styles.reviewsContainer}>
         {reviews.map((review) => (
           <article key={review.id}>
-            <p>Rating: {review.rating}/5</p>
+            <p className={styles.rating}>Rating: {review.rating}/5</p>
             <p>{review.comment}</p>
           </article>
         ))}

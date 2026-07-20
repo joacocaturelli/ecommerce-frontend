@@ -1,0 +1,11 @@
+.reviewsContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-md);
+  min-width: 380px;
+}
+
+.rating {
+  font-weight: bold;
+}
