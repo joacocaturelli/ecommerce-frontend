@@ -14,7 +14,7 @@
   align-items: flex-end;
 }
 
-.tag, .stockOk, .stockNo {
+.stockOk, .stockNo {
   display: inline-block;
   margin-bottom: 1rem;
   padding: 0.1rem 0.65rem;
@@ -23,7 +23,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  border: solid 2px; 
+  border: solid 2px;
 }
 
 .title, .price {
