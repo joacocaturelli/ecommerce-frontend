@@ -1,5 +1,6 @@
 import { useReviews } from '../../hooks/useReviews'
 import StatusMessage from '../StatusMessage/StatusMessage'
+import StarRating from '../StarRating/StarRating'
 import styles from './ReviewList.module.css'
 
 function ReviewList({ productId }) {
@@ -52,8 +53,8 @@ function ReviewList({ productId }) {
       <div className={styles.reviewsContainer}>
         {reviews.map((review) => (
           <article key={review.id}>
-            <p className={styles.rating}>Rating: {review.rating}/5</p>
-            <p>{review.comment}</p>
+            <StarRating rating={review.rating}/>
+            <p className={styles.comment}>{review.comment}</p>
           </article>
         ))}
       </div>

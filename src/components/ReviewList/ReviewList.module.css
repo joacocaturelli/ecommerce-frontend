@@ -9,3 +9,7 @@
 .rating {
   font-weight: bold;
 }
+
+.comment {
+  padding-left: 2px;
+}
