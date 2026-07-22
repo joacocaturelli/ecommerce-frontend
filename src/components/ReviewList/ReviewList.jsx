@@ -40,7 +40,7 @@ function ReviewList({ productId }) {
         <div className={styles.container}>
           <StatusMessage 
             title='Sin Reviews'
-            description='El producto, pero todavia no tiene valoraciones'
+            description='El producto todavia no tiene valoraciones'
           />
         </div>
       </main>
