@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk } from "../../store/features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/auth";
 import { Link } from "react-router-dom";
@@ -8,15 +10,16 @@ import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const emailInputRef = useRef(null)
 
-  const [formData, setFormData] = useState({
+  const { loading, error } = useSelector((state) => state.auth)
+
+  const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   })
-  const [error, setError] = useState(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     emailInputRef.current?.focus()
@@ -24,32 +27,26 @@ function LoginPage() {
 
   function handleChange(event) {
     const {name, value} = event.target
-    setFormData((prev) => ({
+    setCredentials((prev) => ({
       ...prev, // Copiamos los datos que ya habia
       [name]: value 
       // Actualiza solo el campo que cambio (email o password)
-      // name = 'email'     => actualiza formData.email
-      // name = 'password'  => actualiza formData.password
+      // name = 'email'     => actualiza credentials.email
+      // name = 'password'  => actualiza credentials.password
     }))
   }
 
   async function handleSumbit(event) {
     event.preventDefault() // Evita que recargue la pagina
-    setError(null)
-
-    if(!formData.email || !formData.password) {
-      setError('Credenciales incorrectas')
-      return
-    }
-
-    try {
-      setIsSubmitting(true)
-      await loginUser(formData)
+    const result = await dispatch(loginThunk(credentials))
+    // Cómo escribir en el store con useDispatch:
+    //  - dispatch() envía una action al store.
+    //  - El store la pasa al reducer correspondiente.
+    //  - El reducer actualiza el estado.
+    //  - Todos los useSelector que lean ese estado se re-ejecutan.
+   
+    if(loginThunk.fulfilled.match(result)) {
       navigate('/')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
@@ -59,6 +56,14 @@ function LoginPage() {
         <div className={styles.loginContainer}>
           <h2>Inicia sesion o crea una cuenta</h2>
 
+          {error && (
+            <StatusMessage 
+              title='Error'
+              description={error}
+              variant="error"
+            />
+          )}
+
           <form onSubmit={handleSumbit} className={styles.loginForm}>
             <label>
               <span className={styles.span}>Email:</span>
@@ -67,10 +72,10 @@ function LoginPage() {
                 ref={emailInputRef}
                 type="email" 
                 name="email" 
-                value={formData.email} 
+                value={credentials.email} 
                 placeholder="tu@email.com" 
                 onChange={handleChange}
-                disabled={isSubmitting}
+                disabled={loading}
               />
             </label>
 
@@ -80,24 +85,19 @@ function LoginPage() {
                 className={styles.input}
                 type="password" 
                 name="password" 
-                value={formData.password} 
+                value={credentials.password} 
                 placeholder="*********" 
                 onChange={handleChange}
-                disabled={isSubmitting}
+                disabled={loading}
               />
             </label>
 
-            <Button type='submit' disabled={isSubmitting}>Entrar</Button>
+            <Button type='submit' disabled={loading}>
+              {loading ? 'Iniciando Sesión...' : 'Iniciar Sesión'}
+            </Button>
           </form>
 
           <Link to={'/register'} className={styles.link}>Crea una cuenta en React Shop Lab</Link>
-
-          {error && (
-            <StatusMessage 
-              title='Error al ingresar a la aplicacion'
-              description={error}
-            />
-          )}
         </div>
       </section>
     </main>
