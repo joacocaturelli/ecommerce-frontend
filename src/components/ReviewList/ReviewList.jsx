@@ -52,7 +52,7 @@ function ReviewList({ productId }) {
       <h3>Reviews</h3>
       <div className={styles.reviewsContainer}>
         {reviews.map((review) => (
-          <article key={review.id}>
+          <article key={review.userId}>
             <StarRating rating={review.rating}/>
             <p className={styles.comment}>{review.comment}</p>
           </article>
