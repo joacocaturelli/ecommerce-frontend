@@ -1,7 +1,31 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { logoutUser } from '../../store/features/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './Header.module.css'
+import Button from '../Button/Button'
+
+// Cómo leer del store con useSelector
+//  useSelector recibe una función que selecciona un trozo del estado.
+
+// useSelector((state) => state.auth.user)
+//   state            → el estado completo del store
+//   state.auth       → el estado del slice 'auth'
+//   state.auth.user  → la propiedad user del slice auth
+
+// React re-renderiza el componente automáticamente cuando ese valor cambia.
 
 function Header () {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { user, token } = useSelector((state) => state.auth)
+  const cartCount = useSelector((state) => state.cart.count)
+
+  function handleLogout () {
+    dispatch(logoutUser())
+    navigate('login')
+  }
+
   return (
     <header className={styles.header}>
       <div>
@@ -18,6 +42,11 @@ function Header () {
         >
           Colección
         </NavLink>
+        <NavLink to='/admin' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          AdminPage
+        </NavLink>
         <NavLink to='/login' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
@@ -29,6 +58,16 @@ function Header () {
           Register
         </NavLink>
       </nav>
+  
+      <div className={styles.status}>
+        <span>{user ? user.name : 'Invitado'}</span>
+        <span>Productos en el carrito: {cartCount}</span>
+        {token && (
+          <Button onClick={handleLogout} size='small'>
+            Cerrar Sesión
+          </Button>
+        )}
+      </div>
     </header>
   )
 }
