@@ -6,6 +6,8 @@ import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ProductDetailPage from "../pages/ProductsDetailPage/ProductDetailPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import AdminPage from "../pages/AdminPage/AdminPage";
+import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,13 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegisterPage />,
+      },
+      {
+        path: "/admin",
+        element: 
+        <PrivateRoute requiredRole={'ADMIN'}>
+          <AdminPage />,
+        </PrivateRoute>
       },
     ],
   },
