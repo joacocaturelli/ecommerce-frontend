@@ -1,21 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../api/auth";
+import { useDispatch, useSelector } from "react-redux";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import Button from "../../components/Button/Button";
 import styles from './RegisterPage.module.css';
+import { registerThunk } from "../../store/features/authSlice";
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const emailInputRef = useRef(null)
 
-  const [formData, setFormData] = useState({
+  const { loading, error } = useSelector((state) => state.auth)
+
+  const [credentials, setCredentials] = useState({
+    name: "",
     email: "",
     password: "",
   })
-  const [error, setError] = useState(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     emailInputRef.current?.focus()
@@ -23,41 +26,53 @@ function RegisterPage() {
 
   function handleChange(event) {
     const {name, value} = event.target
-    setFormData((prev) => ({
+    setCredentials((prev) => ({
       ...prev, // Copiamos los datos que ya habia
       [name]: value 
       // Actualiza solo el campo que cambio (email o password)
-      // name = 'email'     => actualiza formData.email
-      // name = 'password'  => actualiza formData.password
+      // name = 'name'      => actualiza credentials.name
+      // name = 'email'     => actualiza credentials.email
+      // name = 'password'  => actualiza credentials.password
     }))
   }
 
   async function handleSumbit(event) {
     event.preventDefault() // Evita que recargue la pagina
-    setError(null)
+    const result = await dispatch(registerThunk(credentials))
 
-    if(!formData.email || !formData.password) {
-      setError('Credenciales incorrectas')
-      return
-    }
-
-    try {
-      setIsSubmitting(true)
-      await registerUser(formData)
+    if(registerThunk.fulfilled.match(result)) {
       navigate('/login')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setIsSubmitting(false)
     }
   }
+
   return (
     <main className="page">
       <section className="container">
         <div className={styles.registerContainer}>
           <h2>Crear una cuenta</h2>
 
+          {error && (
+            <StatusMessage 
+              title='Error'
+              description={error}
+              variant="error"
+            />
+          )}
+
           <form onSubmit={handleSumbit} className={styles.registerForm}>
+            <label>
+              <span className={styles.span}>Nombre de usuario:</span>
+              <input 
+                className={styles.input}
+                type="name" 
+                name="name" 
+                value={credentials.name} 
+                placeholder="Nombre" 
+                onChange={handleChange}
+                disabled={loading}
+              />
+            </label>
+
             <label>
               <span className={styles.span}>Email:</span>
               <input 
@@ -65,10 +80,10 @@ function RegisterPage() {
                 ref={emailInputRef}
                 type="email" 
                 name="email" 
-                value={formData.email} 
+                value={credentials.email} 
                 placeholder="tu@email.com" 
                 onChange={handleChange}
-                disabled={isSubmitting}
+                disabled={loading}
               />
             </label>
 
@@ -78,22 +93,17 @@ function RegisterPage() {
                 className={styles.input}
                 type="password" 
                 name="password" 
-                value={formData.password} 
+                value={credentials.password} 
                 placeholder="*********" 
                 onChange={handleChange}
-                disabled={isSubmitting}
+                disabled={loading}
               />
             </label>
 
-            <Button type="submit" disabled={isSubmitting}>Registrarse</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Registrando...' : 'Registrarse'}
+            </Button>
           </form>
-
-          {error && (
-            <StatusMessage 
-              title='Error al ingresar a la aplicacion'
-              description={error}
-            />
-          )}
         </div>
       </section>
     </main>
