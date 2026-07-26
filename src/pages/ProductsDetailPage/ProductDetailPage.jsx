@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useProduct } from "../../hooks/useProduct";
+import { addToCart } from '../../store/features/cartSlice.js';
+import { useDispatch } from "react-redux";
 import Button from "../../components/Button/Button";
 import ReviewList from "../../components/ReviewList/ReviewList";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
@@ -8,7 +10,8 @@ import styles from './ProductDetailPage.module.css'
 
 function ProductDetailPage() {
   const { productId } = useParams()
-  const {product, loading, error} = useProduct(productId)
+  const { product, loading, error } = useProduct(productId)
+  const dispatch = useDispatch()
 
   const [count, setCount] = useState(1)
 
@@ -17,7 +20,11 @@ function ProductDetailPage() {
       setCount(count - 1)
     }
   }
-  
+
+  function handleAddToCart() {
+    dispatch(addToCart())
+  }
+
   if (loading) {
     return (
       <main className={styles.page}>
@@ -58,7 +65,6 @@ function ProductDetailPage() {
     )
   }
 
-
   return (
     <main className={styles.page}>
       <div className={styles.container}>
@@ -80,7 +86,7 @@ function ProductDetailPage() {
             <button className={styles.btnCart} onClick={() => setCount(count + 1)}>+</button>
           </div>
           <div className={styles.btnCartContainer}>
-            <Button>Añadir al carrito </Button>
+            <Button onClick={handleAddToCart}>Añadir al carrito </Button>
             <Button>Añadir a la wishlist</Button>
           </div>
         </div>
