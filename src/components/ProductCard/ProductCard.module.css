@@ -11,12 +11,11 @@
 .productHeader{
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .stockOk, .stockNo {
   display: inline-block;
-  margin-bottom: 1rem;
   padding: 0.1rem 0.65rem;
   border-radius: 999px;
   color: var(--color-primary);
@@ -24,6 +23,16 @@
   font-weight: 700;
   text-transform: uppercase;
   border: solid 2px;
+}
+
+.toggleFav {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.toggleFav:hover {
+  cursor: pointer;
+  transform: scale(1.5);
 }
 
 .title, .price {
