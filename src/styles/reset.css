@@ -37,6 +37,10 @@ a {
   color: inherit;
 }
 
+button {
+  border: none;
+}
+
 button:hover {
   cursor: pointer;
 }
