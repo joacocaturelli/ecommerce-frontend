@@ -19,7 +19,7 @@ function ProductsPage() {
   },[])
 
   return (
-    <main className={styles.page}>
+    <main className='page'>
       <section className={styles.hero}>
         <label className={styles.label} htmlFor="search" ref={labelInputRef}>
           Buscar productos
