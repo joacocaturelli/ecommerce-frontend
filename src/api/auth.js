@@ -10,7 +10,12 @@ export async function loginUser(credentials) {
   return response.data.data;
 }
 
+export async function logOut() {
+  const response = await apiClient.post("auth/logout");
+  return response.data.data;
+}
+
 export async function getMe() {
-  const response = await apiClient.get("/users/profile");
+  const response = await apiClient.get("/users/me");
   return response.data.data;
 }

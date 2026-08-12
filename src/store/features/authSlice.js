@@ -4,46 +4,61 @@
 // -  Actions: Los eventos o disparadores que ejecutan los reducers.
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "../../api/auth";
+import { loginUser, registerUser, getMe, logOut } from "../../api/auth";
 
-export const registerThunk = createAsyncThunk("auth/register", async (credentials, { rejectWithValue }) => {
+export const registerThunk = createAsyncThunk(
+  "auth/register",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const user = await registerUser(credentials);
+      return user; // el return es el payload
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.error || "Error al hacer el registro");
+    }
+  },
+);
+
+export const loginThunk = createAsyncThunk(
+  "auth/login",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const data = await loginUser(credentials);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.error || "Error al iniciar sesion");
+    }
+  },
+);
+
+export const logOutThunk = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
   try {
-    const user = await registerUser(credentials);
-    return user; // el return es el payload
+    const result = await logOut();
+    return result;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.error || "Error al hacer el registro");
+    return rejectWithValue(error.response?.data?.error || "Error al hacer el logout");
   }
 });
 
-export const loginThunk = createAsyncThunk("auth/login", async (credentials, { rejectWithValue }) => {
+export const getMeThunk = createAsyncThunk("auth/me", async (_, { rejectWithValue }) => {
   try {
-    const data = await loginUser(credentials);
-    localStorage.setItem("token", data.token); // guardamos el token en localStore
-    return data;
+    const result = await getMe();
+    return result;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.error || "Error al iniciar sesion");
+    return rejectWithValue({
+      message: error.response?.data?.error || "Error al obtener el usuario autenticado",
+      status: error.response?.status,
+    });
   }
 });
 
 const authSlice = createSlice({
   name: "auth", // nombre para verlo en las herramientas de desarrollo
+
   initialState: {
     user: null, // empezamos sin user logeado
-    token: localStorage.getItem("token") ?? null,
     loading: false,
+    checkingAuth: true,
     error: null,
-  },
-  reducers: {
-    // Para funciones Sincronas
-    // Función para iniciar sesión o actualizar los datos del usuario.
-    // - state: Es el estado actual (en este caso, { user: null }).
-    // - action: Es el objeto que describe lo que pasó.
-    //    Lleva una propiedad llamada payload (la carga útil), que contiene los datos del usuario que se acaba de loguear.
-    logoutUser: (state, action) => {
-      state.user = null; // cerrar sesion
-      state.token = null; // eliminamos el token del estado
-      localStorage.removeItem("token"); // eliminamos el token del localStorage
-    },
   },
   extraReducers: (builder) => {
     // Para funciones Asincronas
@@ -56,8 +71,8 @@ const authSlice = createSlice({
     // action.payload en fulfilled = el valor devuelto por el thunk (registerThunk, loginThunk) (return data)
     // action.payload en rejected  = el valor de rejectWithValue (message)
 
-    // registerThunk
     builder
+      // registerThunk
       .addCase(registerThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -78,11 +93,44 @@ const authSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // logOutThunk
+      .addCase(logOutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logOutThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = null;
+      })
+      .addCase(logOutThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // getMeThunk
+      .addCase(getMeThunk.pending, (state) => {
+        state.error = null;
+        state.checkingAuth = true;
+      })
+      .addCase(getMeThunk.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.checkingAuth = false;
+      })
+      .addCase(getMeThunk.rejected, (state, action) => {
+        state.checkingAuth = false;
+        state.user = null;
+
+        // Mostramos el error solo si es diferente a 401
+        // para no iniciar la app con el error de token no proporcionado
+        if (action.payload?.status !== 401) {
+          state.error = action.payload?.message;
+        }
       });
   },
 });

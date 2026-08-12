@@ -2,9 +2,13 @@ import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 
 function PrivateRoute ({ children, requiredRole }) {
-  const { token, user } = useSelector((state) => state.auth)
+  const { user, checkingAuth } = useSelector((state) => state.auth)
 
-  if (!token) {
+  if (checkingAuth) {
+    return <p>Comprobando sesión...</p>
+  }
+
+  if (!user) {
     return <Navigate to={'/login'} replace />
   }
 

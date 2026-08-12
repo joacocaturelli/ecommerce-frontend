@@ -3,6 +3,7 @@ import { store } from "../store/store";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:3000/api",
+  withCredentials: true,
 });
 
 // El interceptor añade el token automaticamente a las cabeceras
@@ -12,7 +13,7 @@ apiClient.interceptors.request.use((config) => {
   // store.getState() lee el estado actual de Redux al momento de la peticion
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    // config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
