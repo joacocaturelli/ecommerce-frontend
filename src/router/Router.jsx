@@ -1,13 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
-import LoginPage from "../pages/LoginPage/LoginPage";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import HomePage from "../pages/HomePage/HomePage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ProductDetailPage from "../pages/ProductsDetailPage/ProductDetailPage";
-import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
-import AdminPage from "../pages/AdminPage/AdminPage";
+import CartPage from "../pages/CartPage/CartPage";
+import WishlistPage from "../pages/WishlistPage/WishlistPage";
+import AllOrdersPage from "../pages/AllOrdersPage/AllOrdersPage";
+import OrderPage from "../pages/OrderPage/OrderPage";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
+import AdminPage from "../pages/AdminPage/AdminPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +40,22 @@ const router = createBrowserRouter([
         element: <RegisterPage />,
       },
       {
+        path: "/cart",
+        element: <CartPage />,
+      },
+      {
+        path: "/wishlist",
+        element: <WishlistPage />,
+      },
+      {
+        path: "/orders",
+        element: <AllOrdersPage />,
+      },
+      {
+        path: "/order/:orderId",
+        element: <OrderPage />,
+      },
+      {
         path: "/admin",
         element: 
         <PrivateRoute requiredRole={'ADMIN'}>
@@ -45,7 +65,6 @@ const router = createBrowserRouter([
     ],
   },
 ])
-
 
 function Router() {
   return <RouterProvider router={router} />
