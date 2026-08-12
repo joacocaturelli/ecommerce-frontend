@@ -1,3 +1,5 @@
+import Button from '../../components/Button/Button'
+import { NavLink } from 'react-router-dom'
 import styles from './NotFoundPage.module.css'
 
 function NotFoundPage() {
@@ -7,6 +9,11 @@ function NotFoundPage() {
         <p className={styles.code}>404</p>
         <h2>Página no encontrada</h2>
       </div>
+      <Button>
+        <NavLink to={'/'}>
+          Volver a la Home
+        </NavLink>
+      </Button>
     </main>
   )
 }
