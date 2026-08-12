@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { logoutUser } from '../../store/features/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { logOutThunk } from '../../store/features/authSlice'
+import { clearCart } from '../../store/features/cartSlice'
+import { clearWishlist } from '../../store/features/wishlistSlice'
 import styles from './Header.module.css'
 import Button from '../Button/Button'
 
@@ -18,12 +20,22 @@ function Header () {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { user, token } = useSelector((state) => state.auth)
-  const cartCount = useSelector((state) => state.cart.count)
+  const { user} = useSelector((state) => state.auth)
+  const cartCount = useSelector((state) => state.cart.items.length)
 
-  function handleLogout () {
-    dispatch(logoutUser())
-    navigate('login')
+  // Al hacer el logout limpiamos el carrito y la wishlist
+  async function handleLogout() {
+    const result = await dispatch(logOutThunk())
+    
+    if (logOutThunk.fulfilled.match(result)) {
+      dispatch(clearCart())
+      dispatch(clearWishlist())
+      navigate('/login')
+    }
+  }
+
+  function handleCart() {
+    navigate('cart')
   }
 
   return (
@@ -57,12 +69,24 @@ function Header () {
         >
           Register
         </NavLink>
+        <NavLink to='/wishlist' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          Wishlist
+        </NavLink>
+        <NavLink to='/orders' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          Pedidos
+        </NavLink>
       </nav>
   
       <div className={styles.status}>
         <span>{user ? user.name : 'Invitado'}</span>
-        <span>Productos en el carrito: {cartCount}</span>
-        {token && (
+        <Button onClick={handleCart} size='small'>
+          Carrito: {cartCount}
+        </Button>
+        {user && (
           <Button onClick={handleLogout} size='small'>
             Cerrar Sesión
           </Button>
