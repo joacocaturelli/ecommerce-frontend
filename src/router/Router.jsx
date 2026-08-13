@@ -10,8 +10,9 @@ import CartPage from "../pages/CartPage/CartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import AllOrdersPage from "../pages/AllOrdersPage/AllOrdersPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
-import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminPage from "../pages/AdminPage/AdminPage";
+import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -41,19 +42,38 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <CartPage />,
+        element: 
+        <PrivateRoute>
+          <CartPage />,
+        </PrivateRoute>
       },
       {
         path: "/wishlist",
-        element: <WishlistPage />,
+        element: 
+        <PrivateRoute>
+          <WishlistPage />,
+        </PrivateRoute>
       },
       {
         path: "/orders",
-        element: <AllOrdersPage />,
+        element: 
+        <PrivateRoute>
+          <AllOrdersPage />,
+        </PrivateRoute>
       },
       {
         path: "/order/:orderId",
-        element: <OrderPage />,
+        element: 
+        <PrivateRoute>
+          <OrderPage />,
+        </PrivateRoute>
+      },
+      {
+        path: "/profile",
+        element: 
+        <PrivateRoute>
+          <ProfilePage />,
+        </PrivateRoute>
       },
       {
         path: "/admin",
