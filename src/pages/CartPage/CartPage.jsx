@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkoutThunk } from '../../store/features/cartSlice'
 import ProductList from '../../components/ProductList/ProductList'
@@ -7,8 +8,9 @@ import styles from './CartPage.module.css'
 
 function CartPage() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const {items, loading, error, lastOrder} = useSelector((state) => state.cart)
+  const { items, loading, error, lastOrder } = useSelector((state) => state.cart)
 
   const totalInCents = items.reduce((acc, item) => {
     const priceInCents = Math.round(
@@ -19,10 +21,10 @@ function CartPage() {
   }, 0)
 
   const total = (totalInCents / 100).toFixed(2)
-
+  
   async function handleCheckOut() {
     const order = await dispatch(checkoutThunk()).unwrap()
-    console.log(order)
+    navigate(`/order/${order.id}`)
   }
 
   return (
@@ -48,12 +50,13 @@ function CartPage() {
         {!loading && !error && 
           <ProductList products={items} cart={true}/>
         }
+        
         <div>
           <p>Total: {total}€</p>
+          <Button onClick={handleCheckOut}>
+            Comprar
+          </Button>
         </div>
-        <Button onClick={handleCheckOut}>
-          Comprar
-        </Button>
       </section>
     </main>
   );
