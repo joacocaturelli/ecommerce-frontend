@@ -3,18 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logOutThunk } from '../../store/features/authSlice'
 import { clearCart } from '../../store/features/cartSlice'
 import { clearWishlist } from '../../store/features/wishlistSlice'
-import styles from './Header.module.css'
 import Button from '../Button/Button'
-
-// Cómo leer del store con useSelector
-//  useSelector recibe una función que selecciona un trozo del estado.
-
-// useSelector((state) => state.auth.user)
-//   state            → el estado completo del store
-//   state.auth       → el estado del slice 'auth'
-//   state.auth.user  → la propiedad user del slice auth
-
-// React re-renderiza el componente automáticamente cuando ese valor cambia.
+import styles from './Header.module.css'
 
 function Header () {
   const dispatch = useDispatch()
@@ -35,7 +25,11 @@ function Header () {
   }
 
   function handleCart() {
-    navigate('cart')
+    navigate('/cart')
+  }
+
+   function handleLogin() {
+    navigate('/login')
   }
 
   return (
@@ -43,54 +37,77 @@ function Header () {
       <div>
         <h1 className={styles.title}>React Shop Lab</h1>
       </div>
+      
       <nav className={styles.nav}>
         <NavLink to='/' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Inicio
         </NavLink>
+
         <NavLink to='/productos' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Colección
         </NavLink>
+
         <NavLink to='/admin' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           AdminPage
         </NavLink>
+
         <NavLink to='/login' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Login
         </NavLink>
+
         <NavLink to='/register' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Register
         </NavLink>
+
         <NavLink to='/wishlist' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Wishlist
         </NavLink>
+
         <NavLink to='/orders' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
           Pedidos
         </NavLink>
+
+        <NavLink to='/profile' className={({isActive}) => 
+          isActive ? styles.activeLink : styles.link}
+        >
+          Perfil
+        </NavLink>
       </nav>
   
       <div className={styles.status}>
         <span>{user ? user.name : 'Invitado'}</span>
-        <Button onClick={handleCart} size='small'>
-          Carrito: {cartCount}
-        </Button>
-        {user && (
-          <Button onClick={handleLogout} size='small'>
-            Cerrar Sesión
-          </Button>
-        )}
+
+        {user 
+          ? (
+            <>
+              <Button onClick={handleCart} size='small'>
+                Carrito: {cartCount}
+              </Button>
+
+              <Button onClick={handleLogout} size='small'>
+                Cerrar Sesión
+              </Button>
+            </>
+          ) : (
+            <Button onClick={handleLogin} size='small'>
+                Iniciar sesión
+            </Button>
+          )
+        }
       </div>
     </header>
   )
