@@ -1,4 +1,5 @@
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCardWish from "../ProductCardWish/ProductCardWish";
+import ProductCardCart from "../ProductCardCart/ProductCardCart";
 import StatusMessage from "../StatusMessage/StatusMessage";
 import styles from './ProductList.module.css'
 
@@ -26,12 +27,21 @@ function ProductList({products, cart = false}) {
   return (
     <section className={styles.productList}>
       {products.map((item) => (
-        <ProductCard
-          key={item.id}
-          product={cart ? item.product : item}
-          quantity={cart ? item.quantity : undefined}
-        />
-      ))}
+        cart
+          ? (
+            <ProductCardCart
+              key={item.id}
+              product={item.product}
+              quantity={item.quantity}
+            />
+          ) : (
+            <ProductCardWish
+              key={item.id}
+              product={item}
+            />
+          )
+        )
+      )}
     </section>
   )
 }
