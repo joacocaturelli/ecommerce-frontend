@@ -50,3 +50,7 @@
 .button:hover::before {
   width: 100%;
 }
+
+.button:active {
+  transform: scale(0.95);
+}
