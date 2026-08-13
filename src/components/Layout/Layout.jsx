@@ -1,15 +1,16 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getWishlistThunk } from "../../store/features/wishlistSlice";
+import { getCartThunk } from "../../store/features/cartSlice";
+import { getMeThunk } from "../../store/features/authSlice";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import styles from './Layout.module.css'
-import { useDispatch, useSelector } from "react-redux";
-import { getCartThunk } from "../../store/features/cartSlice";
-import { useEffect } from "react";
-import { getMeThunk } from "../../store/features/authSlice";
-import { getWishlistThunk } from "../../store/features/wishlistSlice";
 
 function Layout() {
   const dispatch = useDispatch()
+  
   const {user} = useSelector((state) => state.auth)
 
   // Cargamos el usuario autenticado

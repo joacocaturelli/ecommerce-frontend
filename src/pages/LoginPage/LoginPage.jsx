@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../../store/features/authSlice";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/auth";
 import { Link } from "react-router-dom";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import Button from '../../components/Button/Button';

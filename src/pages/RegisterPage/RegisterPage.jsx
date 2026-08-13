@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { registerThunk } from "../../store/features/authSlice";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
 import Button from "../../components/Button/Button";
 import styles from './RegisterPage.module.css';
-import { registerThunk } from "../../store/features/authSlice";
 
 function RegisterPage() {
   const navigate = useNavigate()
@@ -38,6 +38,7 @@ function RegisterPage() {
 
   async function handleSumbit(event) {
     event.preventDefault() // Evita que recargue la pagina
+
     const result = await dispatch(registerThunk(credentials))
 
     if(registerThunk.fulfilled.match(result)) {
@@ -48,6 +49,7 @@ function RegisterPage() {
   return (
     <main className="page">
       <section className="container">
+
         <div className={styles.registerContainer}>
           <h2>Crear una cuenta</h2>
 
@@ -60,11 +62,13 @@ function RegisterPage() {
           )}
 
           <form onSubmit={handleSumbit} className={styles.registerForm}>
+
             <label>
               <span className={styles.span}>Nombre de usuario:</span>
+
               <input 
                 className={styles.input}
-                type="name" 
+                type="text" 
                 name="name" 
                 value={credentials.name} 
                 placeholder="Nombre" 
@@ -75,6 +79,7 @@ function RegisterPage() {
 
             <label>
               <span className={styles.span}>Email:</span>
+
               <input 
                 className={styles.input}
                 ref={emailInputRef}
@@ -103,8 +108,10 @@ function RegisterPage() {
             <Button type="submit" disabled={loading}>
               {loading ? 'Registrando...' : 'Registrarse'}
             </Button>
+            
           </form>
         </div>
+
       </section>
     </main>
   )

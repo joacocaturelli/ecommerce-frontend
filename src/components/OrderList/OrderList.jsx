@@ -18,9 +18,15 @@ function OrderList({orders}) {
   return (
     <section className='containerList'>
       <div className={styles.orderCardsContainer}>
+
         {orders.map((pedido, index) => (
-          <OrderCardList key={pedido.id} order={pedido} num={index + 1}/>
+          <OrderCardList 
+            key={pedido.id} 
+            order={pedido} 
+            num={orders.length - index}
+          />
         ))}
+        
       </div>
     </section>
   )

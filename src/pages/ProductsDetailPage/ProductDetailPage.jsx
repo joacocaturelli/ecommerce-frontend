@@ -11,12 +11,15 @@ import styles from './ProductDetailPage.module.css'
 
 function ProductDetailPage() {
   const dispatch = useDispatch()
+
   const { productId } = useParams()
   const { product, loading, error } = useProduct(productId)
+
   const [ quantity, setQuantity ] = useState(1)
 
   const { user } = useSelector((state) => state.auth)
   const { items } = useSelector((state) => state.wishlist)
+
   const isInWish = items.some((item) => item.id === productId)
 
   const restar = () => {
@@ -82,9 +85,11 @@ function ProductDetailPage() {
   }
 
   return (
-    <main className={styles.page}>
-      <div className={styles.container}>
+    <main className='page'>
+      <div className='container'>
+
         <div className={styles.infoProduct}>
+
           <div className={styles.productHeader}>
             <p className={styles.label}>Detalle</p>
             <p className={product.stock > 0 ? styles.stockOk : styles.stockNo}>
@@ -95,17 +100,24 @@ function ProductDetailPage() {
           <h2 className={styles.title}>{product.name}</h2>
           <p className={styles.description}>{product.description}</p>
           <p className={styles.price}>{product.price}€</p>
+
         </div>
 
         <div className={styles.infoCart}>
+
           <div className={styles.counter}>
+
             <button className={styles.btnCart} onClick={restar}>-</button>
+
             <span className={styles.quantity}>{quantity}</span>
+            
             <button className={styles.btnCart} onClick={() => setQuantity(quantity + 1)}>+</button>
+
           </div>
 
           <div className={styles.btnCartContainer}>
             <Button onClick={handleAddToCart}>Añadir al carrito </Button>
+            
             <Button onClick={
               !user
                 ? handleNavigate
@@ -120,10 +132,14 @@ function ProductDetailPage() {
               }
             </Button>
           </div>
+
         </div>
       </div>
       
-      <ReviewList productId={productId}/>
+      <ReviewList 
+        productId={productId} 
+        user={user}
+      />
     </main>
   )
 }

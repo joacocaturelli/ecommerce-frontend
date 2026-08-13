@@ -9,6 +9,7 @@ import styles from './OrderPage.module.css'
 
 function OrderPage() {
   const dispatch = useDispatch()
+
   const { orderId } = useParams()
 
   const { currentOrder, loading, error } = useSelector((state) => state.order)
@@ -40,11 +41,13 @@ function OrderPage() {
         {!loading && !error && currentOrder && (
           <>
             <OrderProductCard order={currentOrder} />
+
             <NavLink to={'/orders'}>
               <Button>
                 Ver mis pedidos
               </Button>
             </NavLink>
+            
             <NavLink to={'/productos'}>
               <Button>
                 Seguir comprando

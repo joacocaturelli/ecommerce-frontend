@@ -5,8 +5,10 @@ import StatusMessage from "../../components/StatusMessage/StatusMessage.jsx"
 import styles from "./ProductsPage.module.css"
 
 function ProductsPage() {
-  const {products, loading, error} = useProducts() // Importamos las variables del hook
   const labelInputRef = useRef(null) // Creamos la variable para el hook
+
+  const {products, loading, error} = useProducts() // Importamos las variables del hook
+
   const [search, setSearch] = useState(""); // Estado para el buscador de productos
 
   // Filtramos lo que busca el usuario con el array de productos
@@ -21,9 +23,11 @@ function ProductsPage() {
   return (
     <main className='page'>
       <section className={styles.hero}>
+
         <label className={styles.label} htmlFor="search" ref={labelInputRef}>
           Buscar productos
         </label>
+
         <input 
           className={styles.input} 
           type="text" 
@@ -32,6 +36,7 @@ function ProductsPage() {
           value={search}
           onChange={(evento) => setSearch(evento.target.value)}
         />
+        
       </section>
 
       {loading && (

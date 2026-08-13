@@ -1,6 +1,6 @@
 import ProductCard from "../ProductCard/ProductCard";
-import styles from './ProductGrid.module.css'
 import StatusMessage from "../StatusMessage/StatusMessage";
+import styles from './ProductGrid.module.css'
 
 function ProductGrid({products}) {
 
@@ -17,9 +17,14 @@ function ProductGrid({products}) {
   
   return (
     <section className={styles.grid}>
-      {products.map((p) => (
-        <ProductCard key={p.id} product={p}/>
+
+      {products.map((product) => (
+        <ProductCard 
+          key={product.id} 
+          product={product}
+        />
       ))}
+
     </section>
   )
 }
