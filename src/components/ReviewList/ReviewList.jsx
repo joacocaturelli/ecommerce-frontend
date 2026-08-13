@@ -1,63 +1,89 @@
 import { useReviews } from '../../hooks/useReviews'
+import ReviewForm from '../ReviewForm/ReviewForm'
 import StatusMessage from '../StatusMessage/StatusMessage'
 import StarRating from '../StarRating/StarRating'
 import styles from './ReviewList.module.css'
 
-function ReviewList({ productId }) {
-  const {reviews, loading, error} = useReviews(productId)
+function ReviewList({ productId, user }) {
 
-  if (loading) {
+  const {
+    reviews,
+    revLoading,
+    revError,
+    createReview,
+    updateReview,
+    deleteReview
+  } = useReviews(productId);
+
+  const userReview = reviews.find((review) => review.userId === user?.id)
+
+  const filteredReviews = reviews.filter((review) => review.userId !== user?.id)
+
+  if (revLoading) {
     return (
-      <main className={styles.page}>
-        <div className={styles.container}>
-          <StatusMessage
-            title='Cargando reviews' 
-            description='Consultando opiniones de usuarios...' 
-          />
-        </div>
-      </main>
+      <div className='container'>
+        <StatusMessage
+          title='Cargando reviews' 
+          description='Consultando opiniones de usuarios...' 
+        />
+      </div>
     )
   }
   
-  
-  if (error) {
+  if (revError) {
     return (
-      <main className={styles.page}>
-        <div className={styles.container}>
-          <StatusMessage 
-            title='Error al cargar las reviews'
-            description={error}
-            variant="error"
-            />
-        </div>
-      </main>
-    )
-  }
-  
-  if(reviews.length === 0) {
-    return (
-      <main className={styles.page}>
-        <div className={styles.container}>
-          <StatusMessage 
-            title='Sin Reviews'
-            description='El producto todavia no tiene valoraciones'
+      <div className='container'>
+        <StatusMessage 
+          title='Error al cargar las reviews'
+          description={error}
+          variant="error"
           />
-        </div>
-      </main>
+      </div>
     )
   }
 
   return (
     <section className='container'>
       <h3>Reviews</h3>
-      <div className={styles.reviewsContainer}>
-        {reviews.map((review) => (
-          <article key={review.userId}>
-            <StarRating rating={review.rating}/>
-            <p className={styles.comment}>{review.comment}</p>
-          </article>
-        ))}
-      </div>
+
+      <ReviewForm 
+        review={userReview} 
+        onCreate={createReview} 
+        onUpdate={updateReview} 
+        user={user}
+      />
+
+      {reviews.length === 0 
+        ? 
+          <div className='container'>
+            <StatusMessage 
+              title='Sin Reviews'
+              description='El producto todavia no tiene valoraciones'
+            />
+          </div>
+        :
+        <>
+          {userReview && (
+              <article>
+                <StarRating rating={userReview.rating}/>
+                <p className={styles.comment}>{userReview.comment}</p>
+                <button onClick={deleteReview}>x</button>
+              </article>
+            )
+          }
+
+          <div className={styles.reviewsContainer}>
+
+            {filteredReviews.map((review) => (
+              <article key={review.userId}>
+                <StarRating rating={review.rating}/>
+                <p className={styles.comment}>{review.comment}</p>
+              </article>
+            ))}
+            
+          </div>
+        </> 
+      }
     </section>
   )
 }
