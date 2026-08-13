@@ -1,0 +1,9 @@
+.toggleFav {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.toggleFav:hover {
+  cursor: pointer;
+  transform: scale(1.5);
+}
