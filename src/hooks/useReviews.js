@@ -1,27 +1,79 @@
 import { useEffect, useState } from "react";
-import { getReviewsByProductId } from "../api/reviews";
+import * as apiReview from "../api/reviews";
 
 export function useReviews(productId) {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [revLoading, setRevLoading] = useState(false);
+  const [revError, setRevError] = useState(null);
+
+  // Obtiene las reviews y actualiza el estado.
+  // No gestiona loading ni errores para poder reutilizarla
+  // después de crear, editar o eliminar una review.
+  async function fetchReviews() {
+    const data = await apiReview.getReviewsByProductId(productId);
+    setReviews(data);
+  }
+
+  async function loadReviews() {
+    try {
+      setRevLoading(true);
+      setRevError(null);
+
+      await fetchReviews();
+    } catch (err) {
+      setRevError(err.message);
+    } finally {
+      setRevLoading(false);
+    }
+  }
+
+  // No hace falta pasar productId en cada funcion porque
+  // el hook ya lo conoce de manera global
+  async function createReview(rating, comment) {
+    try {
+      setRevLoading(true);
+      setRevError(null);
+
+      await apiReview.createReview(productId, rating, comment);
+      await fetchReviews();
+    } catch (err) {
+      setRevError(err.message);
+    } finally {
+      setRevLoading(false);
+    }
+  }
+
+  async function updateReview(rating, comment) {
+    try {
+      setRevLoading(true);
+      setRevError(null);
+
+      await apiReview.updateReview(productId, rating, comment);
+      await fetchReviews();
+    } catch (err) {
+      setRevError(err.message);
+    } finally {
+      setRevLoading(false);
+    }
+  }
+
+  async function deleteReview() {
+    try {
+      setRevLoading(true);
+      setRevError(null);
+
+      await apiReview.deleteReview(productId);
+      await fetchReviews();
+    } catch (err) {
+      setRevError(err.message);
+    } finally {
+      setRevLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function loadReviews() {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await getReviewsByProductId(productId);
-        setReviews(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     loadReviews();
   }, [productId]);
 
-  return { reviews, loading, error };
+  return { reviews, revLoading, revError, createReview, updateReview, deleteReview };
 }
