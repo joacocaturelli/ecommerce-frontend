@@ -12,6 +12,7 @@ function CartPage() {
 
   const { items, loading, error, lastOrder } = useSelector((state) => state.cart)
 
+  // Obtener el precio del carrito de manera exacta en centimos
   const totalInCents = items.reduce((acc, item) => {
     const priceInCents = Math.round(
       Number(item.product.price) * 100
@@ -20,6 +21,7 @@ function CartPage() {
     return acc + priceInCents * item.quantity
   }, 0)
 
+  // Conventir el resultado a Euros
   const total = (totalInCents / 100).toFixed(2)
   
   async function handleCheckOut() {
