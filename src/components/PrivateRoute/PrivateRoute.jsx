@@ -1,7 +1,10 @@
 import { useSelector } from "react-redux"
-import { Navigate } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom"
 
 function PrivateRoute ({ children, requiredRole }) {
+
+  const location = useLocation()
+
   const { user, checkingAuth } = useSelector((state) => state.auth)
 
   if (checkingAuth) {
@@ -13,7 +16,9 @@ function PrivateRoute ({ children, requiredRole }) {
   }
 
   if (requiredRole && user?.role !== requiredRole) {
-    return <Navigate to={'/'} replace />
+    // {from: location} guarda la ruta actual para que pueda 
+    // ser usada en la pagina a donde se va a redirigir el usuario
+    return <Navigate to={'/'} replace state={{from: location}} /> 
   }
 
   return children

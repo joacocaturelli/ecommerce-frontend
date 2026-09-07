@@ -104,7 +104,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(logOutThunk.fulfilled, (state, action) => {
+      .addCase(logOutThunk.fulfilled, (state) => {
         state.loading = false;
         state.user = null;
       })
@@ -134,6 +134,10 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const selectIsAdmin = (state) => {
+  return state.auth.user?.role === "ADMIN";
+};
 
 export const { logoutUser } = authSlice.actions;
 export default authSlice.reducer;

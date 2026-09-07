@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logOutThunk } from '../../store/features/authSlice'
 import { clearCart } from '../../store/features/cartSlice'
 import { clearWishlist } from '../../store/features/wishlistSlice'
+import { selectIsAdmin } from '../../store/features/authSlice'
 import Button from '../Button/Button'
 import styles from './Header.module.css'
 
@@ -12,6 +13,7 @@ function Header () {
 
   const { user} = useSelector((state) => state.auth)
   const cartCount = useSelector((state) => state.cart.items.length)
+  const isAdmin = useSelector(selectIsAdmin)
 
   // Al hacer el logout limpiamos el carrito y la wishlist
   async function handleLogout() {
@@ -51,12 +53,6 @@ function Header () {
           Colección
         </NavLink>
 
-        <NavLink to='/admin' className={({isActive}) => 
-          isActive ? styles.activeLink : styles.link}
-        >
-          AdminPage
-        </NavLink>
-
         <NavLink to='/login' className={({isActive}) => 
           isActive ? styles.activeLink : styles.link}
         >
@@ -86,6 +82,14 @@ function Header () {
         >
           Perfil
         </NavLink>
+
+        {isAdmin && 
+          <NavLink to='/admin' className={({isActive}) => 
+            isActive ? styles.activeLink : styles.link}
+          >
+            AdminPage
+          </NavLink>
+        }
       </nav>
   
       <div className={styles.status}>
