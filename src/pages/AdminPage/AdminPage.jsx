@@ -5,7 +5,8 @@ function AdminPage () {
     <main className="page">
       <section className="container">
         <div className={styles.container}>
-          <h2>Bienvenido Admin</h2>
+          <h2>Admin Dashboard</h2>
+          <p>Bienvenido al panel de administración</p>
         </div>
       </section>
     </main>

@@ -56,8 +56,8 @@ function ProductsPage() {
           onChange={(evento) => setSortBy(evento.target.value)}  
         >
           <option value='name'>Ordenar por nombre</option>
-          <option value='priceMin'>Ordenar por precio descendente</option>
-          <option value='priceMax'>Ordenar por precio ascendente</option>
+          <option value='priceMax'>Ordenar por precio descendente</option>
+          <option value='priceMin'>Ordenar por precio ascendente</option>
         </select>
         
       </section>
