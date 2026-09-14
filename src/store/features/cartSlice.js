@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getApiError } from "../../utils/apiError";
 import * as apiCart from "../../api/cart";
 
 export const getCartThunk = createAsyncThunk("cart/getCart", async (_, { rejectWithValue }) => {
   try {
     const cart = await apiCart.getCart();
+
     return cart.items;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.error || "Error al obtener el carrito");
+    return rejectWithValue(getApiError(error));
   }
 });
 
@@ -20,9 +22,7 @@ export const addProductThunk = createAsyncThunk(
 
       return cart.items;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Error al añadir el producto al carrito",
-      );
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -37,9 +37,7 @@ export const removeProductThunk = createAsyncThunk(
 
       return cart.items;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Error al eliminar el producto del carrito",
-      );
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -47,9 +45,10 @@ export const removeProductThunk = createAsyncThunk(
 export const checkoutThunk = createAsyncThunk("cart/checkout", async (_, { rejectWithValue }) => {
   try {
     const result = await apiCart.cartCheckout();
+
     return result;
   } catch (error) {
-    return rejectWithValue(error.response?.data?.error || "Error al hacer el checkout del carrito");
+    return rejectWithValue(getApiError(error));
   }
 });
 
@@ -57,7 +56,6 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     items: [],
-    lastOrder: null,
     loading: false,
     error: null,
   },
@@ -118,11 +116,9 @@ const cartSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(checkoutThunk.fulfilled, (state, action) => {
+      .addCase(checkoutThunk.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
-        state.lastOrder = action.payload;
-        state.items = [];
       })
       .addCase(checkoutThunk.rejected, (state, action) => {
         state.loading = false;

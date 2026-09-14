@@ -1,23 +1,22 @@
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../Button/Button"
 import styles from './ReviewForm.module.css'
 
-function ReviewForm ({review, onCreate, onUpdate, user}) {
+function ReviewForm({ review, onCreate, onUpdate, user }) {
   const navigate = useNavigate()
 
   const [rating, setRating] = useState(review?.rating ?? 0)
   const [comment, setComment] = useState(review?.comment ?? '')
   const [loading, setLoading] = useState(false)
 
-  const ratingInputRef = useRef(null)
-
-  useEffect(() => {
-    ratingInputRef.current?.focus()
-  }, [])
-
   async function handleSubmit(event) {
     event.preventDefault()
+
+    if (!user) {
+      navigate('/login')
+      return
+    }
 
     try {
       setLoading(true)
@@ -27,55 +26,54 @@ function ReviewForm ({review, onCreate, onUpdate, user}) {
       } else {
         await onCreate(rating, comment)
       }
-
     } finally {
       setLoading(false)
     }
   }
 
-  function handleNavigate() {
-    navigate('/login')
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit}
+    >
+      <label className={styles.field}>
+        <span className={styles.label}>
+          Valoración:
+        </span>
 
-      <label>
-        <span className={styles.span}>Valoración:</span>
-
-        <input 
+        <input
           className={styles.input}
-          ref={ratingInputRef}
-          name="rating" 
-          type="number" 
-          min='1'
-          max='5'
-          value={rating} 
+          name="rating"
+          type="number"
+          min="1"
+          max="5"
+          value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
           disabled={loading}
         />
       </label>
 
-      <label>
-        <span className={styles.span}>Comentario:</span>
+      <label className={styles.field}>
+        <span className={styles.label}>
+          Comentario:
+        </span>
 
-        <textarea 
+        <textarea
           className={styles.input}
-          name="comment" 
-          value={comment} 
+          name="comment"
+          value={comment}
           onChange={(e) => setComment(e.target.value)}
           disabled={loading}
-          placeholder="Comenta que te pareció el producto" 
+          placeholder="Comenta qué te pareció el producto"
         />
       </label>
 
-      <Button 
-        type='submit' 
-        size="small" 
-        disabled={loading} 
-        onClick={user ? null : handleNavigate}
+      <Button
+        type="submit"
+        size="small"
+        disabled={loading}
       >
-        {review ? 'Actualizar review' : 'Publicar Review'}
+        {review ? 'Actualizar review' : 'Publicar review'}
       </Button>
     </form>
   )

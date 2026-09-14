@@ -10,8 +10,11 @@ import CartPage from "../pages/CartPage/CartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import AllOrdersPage from "../pages/AllOrdersPage/AllOrdersPage";
 import OrderPage from "../pages/OrderPage/OrderPage";
+import OrderSuccessPage from "../pages/OrderSuccessPage/OrderSuccessPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminPage from "../pages/AdminPage/AdminPage";
+import AdminProductPage from "../pages/AdminProductPage/AdminProductPage";
+import AdminProductFormPage from "../pages/AdminProductFormPage/AdminProductFormPage";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const router = createBrowserRouter([
@@ -25,11 +28,11 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/productos",
+        path: "/products",
         element: <ProductsPage />,
       },
       {
-        path: "/productos/:productId",
+        path: "/products/:productId",
         element: <ProductDetailPage />,
       },
       {
@@ -69,6 +72,13 @@ const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
+        path: "/order/:orderId/success",
+        element: 
+        <PrivateRoute>
+          <OrderSuccessPage />,
+        </PrivateRoute>
+      },
+      {
         path: "/profile",
         element: 
         <PrivateRoute>
@@ -80,6 +90,27 @@ const router = createBrowserRouter([
         element: 
         <PrivateRoute requiredRole={'ADMIN'}>
           <AdminPage />,
+        </PrivateRoute>
+      },
+      {
+        path: "/admin/products",
+        element: 
+        <PrivateRoute requiredRole={'ADMIN'}>
+          <AdminProductPage />,
+        </PrivateRoute>
+      },
+      {
+        path: "/admin/products/form",
+        element: 
+        <PrivateRoute requiredRole={'ADMIN'}>
+          <AdminProductFormPage />,
+        </PrivateRoute>
+      },
+      {
+        path: "/admin/products/form/:productId",
+        element: 
+        <PrivateRoute requiredRole={'ADMIN'}>
+          <AdminProductFormPage />,
         </PrivateRoute>
       },
     ],

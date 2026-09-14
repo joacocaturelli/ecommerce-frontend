@@ -3,6 +3,8 @@ import authReducer from "./features/authSlice.js";
 import cartReducer from "./features/cartSlice.js";
 import wishlistReducer from "./features/wishlistSlice.js";
 import orderReducer from "./features/orderSlice.js";
+import toastReducer from "./features/toastSlice.js";
+import toastMiddleware from "./middleware/toastMiddleware.js";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,11 @@ export const store = configureStore({
     cart: cartReducer,
     wishlist: wishlistReducer,
     order: orderReducer,
+    toast: toastReducer,
+  },
+
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(toastMiddleware);
   },
 });
 

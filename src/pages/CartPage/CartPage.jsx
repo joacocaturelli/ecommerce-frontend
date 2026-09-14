@@ -1,67 +1,101 @@
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { checkoutThunk } from '../../store/features/cartSlice'
-import ProductList from '../../components/ProductList/ProductList'
-import StatusMessage from '../../components/StatusMessage/StatusMessage'
-import Button from '../../components/Button/Button'
-import styles from './CartPage.module.css'
+import { useDispatch, useSelector } from "react-redux";
+import { checkoutThunk } from "../../store/features/cartSlice";
+import ProductList from "../../components/ProductList/ProductList";
+import StatusMessage from "../../components/StatusMessage/StatusMessage";
+import Button from "../../components/Button/Button";
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
+import styles from "./CartPage.module.css";
 
 function CartPage() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
-  const { items, loading, error, lastOrder } = useSelector((state) => state.cart)
+  const { items, loading, error } = useSelector(
+    (state) => state.cart
+  );
 
-  // Obtener el precio del carrito de manera exacta en centimos
   const totalInCents = items.reduce((acc, item) => {
     const priceInCents = Math.round(
       Number(item.product.price) * 100
-    )
+    );
 
-    return acc + priceInCents * item.quantity
-  }, 0)
+    return acc + priceInCents * item.quantity;
+  }, 0);
 
-  // Conventir el resultado a Euros
-  const total = (totalInCents / 100).toFixed(2)
-  
+  const total = (totalInCents / 100).toFixed(2);
+  const isEmpty = items.length === 0;
+
   async function handleCheckOut() {
-    const order = await dispatch(checkoutThunk()).unwrap()
-    navigate(`/order/${order.id}`)
+    const order = await dispatch(
+      checkoutThunk()
+    ).unwrap();
+
+    window.location.href = order.url;
   }
 
   return (
     <main className="page">
       <section className="container">
-        <h1>Carrito</h1>
+        <div className={styles.productsContainer}>
+          <ButtonBack />
 
-        {loading && (
-          <StatusMessage 
-            title='Cargando productos...' 
-            description='Esperando respuesta del backend...' 
-          />
-        )}
+          <header className={styles.header}>
+            <p className={styles.eyebrow}>
+              Tu selección
+            </p>
 
-        {error && (
-          <StatusMessage 
-            title='Ha ocurrido un error'
-            description={error}
-            variant="error"
-          />
-        )}
+            <h1 className={styles.title}>
+              Carrito
+            </h1>
+          </header>
 
-        {!loading && !error && 
-          <ProductList products={items} cart={true}/>
-        }
-        
-        <div>
-          <p>Total: {total}€</p>
-          <Button onClick={handleCheckOut}>
-            Comprar
-          </Button>
+          {loading && (
+            <StatusMessage
+              title="Cargando productos..."
+              description="Esperando respuesta del backend..."
+            />
+          )}
+
+          {error && (
+            <StatusMessage
+              title="Ha ocurrido un error"
+              description={error}
+              variant="error"
+            />
+          )}
+
+          {!loading && !error && isEmpty && (
+            <StatusMessage
+              title="Tu carrito está vacío"
+              description="Añade algún producto para comenzar tu compra."
+            />
+          )}
+
+          {!loading && !error && !isEmpty && (
+            <>
+              <ProductList
+                products={items}
+                cart={true}
+              />
+
+              <div className={styles.summary}>
+                <div className={styles.total}>
+                  <span>Total</span>
+                  <strong>{total}€</strong>
+                </div>
+
+                <Button
+                  onClick={handleCheckOut}
+                  className={styles.buyButton}
+                >
+                  Comprar
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </main>
   );
 }
 
-export default CartPage
+export default CartPage;

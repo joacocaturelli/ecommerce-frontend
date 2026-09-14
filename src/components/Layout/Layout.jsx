@@ -6,33 +6,38 @@ import { getMeThunk } from "../../store/features/authSlice";
 import { Outlet } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
-import styles from './Layout.module.css'
+import Toast from "../Toast/Toast";
+import styles from "./Layout.module.css";
 
 function Layout() {
-  const dispatch = useDispatch()
-  
-  const {user} = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
 
   // Cargamos el usuario autenticado
   useEffect(() => {
-    dispatch(getMeThunk())
-  }, [dispatch])
+    dispatch(getMeThunk());
+  }, [dispatch]);
 
   // Cuando tenemos usuario cargamos su carrito y wishlist
   useEffect(() => {
-    if (!user) return
+    if (!user) return;
 
-    dispatch(getCartThunk())
-    dispatch(getWishlistThunk())
-  }, [dispatch, user])
+    dispatch(getCartThunk());
+    dispatch(getWishlistThunk());
+  }, [dispatch, user]);
 
   return (
     <div className={styles.container}>
       <Header />
-      <Outlet /> {/*Sirve para inyectar la pagina actual*/}
+
+      <Outlet />
+
       <Footer />
+
+      <Toast />
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

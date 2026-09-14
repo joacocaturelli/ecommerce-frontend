@@ -1,51 +1,48 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { loginThunk } from "../../store/features/authSlice";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import StatusMessage from "../../components/StatusMessage/StatusMessage";
-import Button from '../../components/Button/Button';
-import styles from './LoginPage.module.css';
+import Button from "../../components/Button/Button";
+import styles from "./LoginPage.module.css";
 
 function LoginPage() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const emailInputRef = useRef(null)
+  const emailInputRef = useRef(null);
 
-  const { loading, error } = useSelector((state) => state.auth)
+  const { loading, error } = useSelector(
+    (state) => state.auth
+  );
 
   const [credentials, setCredentials] = useState({
     email: "",
-    password: "",
-  })
+    password: ""
+  });
 
   useEffect(() => {
-    emailInputRef.current?.focus()
-  }, [])
+    emailInputRef.current?.focus();
+  }, []);
 
   function handleChange(event) {
-    const {name, value} = event.target
+    const { name, value } = event.target;
+
     setCredentials((prev) => ({
-      ...prev, // Copiamos los datos que ya habia
-      [name]: value 
-      // Actualiza solo el campo que cambio (email o password)
-      // name = 'email'     => actualiza credentials.email
-      // name = 'password'  => actualiza credentials.password
-    }))
+      ...prev,
+      [name]: value
+    }));
   }
 
-  async function handleSumbit(event) {
-    event.preventDefault() // Evita que recargue la pagina
-    const result = await dispatch(loginThunk(credentials))
-    // Cómo escribir en el store con useDispatch:
-    //  - dispatch() envía una action al store.
-    //  - El store la pasa al reducer correspondiente.
-    //  - El reducer actualiza el estado.
-    //  - Todos los useSelector que lean ese estado se re-ejecutan.
-   
-    if(loginThunk.fulfilled.match(result)) {
-      navigate('/')
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const result = await dispatch(
+      loginThunk(credentials)
+    );
+
+    if (loginThunk.fulfilled.match(result)) {
+      navigate("/");
     }
   }
 
@@ -53,54 +50,95 @@ function LoginPage() {
     <main className="page">
       <section className="container">
         <div className={styles.loginContainer}>
-          <h2>Inicia sesion o crea una cuenta</h2>
+
+          <div className={styles.header}>
+            <p className={styles.eyebrow}>
+              React Shop Lab
+            </p>
+
+            <h1 className={styles.title}>
+              Inicia sesión
+            </h1>
+
+            <p className={styles.description}>
+              Accede a tu cuenta para continuar con tus compras.
+            </p>
+          </div>
 
           {error && (
-            <StatusMessage 
-              title='Error'
+            <StatusMessage
+              title="Error"
               description={error}
               variant="error"
             />
           )}
 
-          <form onSubmit={handleSumbit} className={styles.loginForm}>
-            <label>
-              <span className={styles.span}>Email:</span>
-              <input 
+          <form
+            onSubmit={handleSubmit}
+            className={styles.loginForm}
+          >
+            <label className={styles.field}>
+              <span className={styles.label}>
+                Email
+              </span>
+
+              <input
                 className={styles.input}
                 ref={emailInputRef}
-                type="email" 
-                name="email" 
-                value={credentials.email} 
-                placeholder="tu@email.com" 
+                type="email"
+                name="email"
+                value={credentials.email}
+                placeholder="tu@email.com"
                 onChange={handleChange}
                 disabled={loading}
+                autoComplete="email"
+                required
               />
             </label>
 
-            <label>
-              <span className={styles.span}>Password:</span>
-              <input 
+            <label className={styles.field}>
+              <span className={styles.label}>
+                Contraseña
+              </span>
+
+              <input
                 className={styles.input}
-                type="password" 
-                name="password" 
-                value={credentials.password} 
-                placeholder="*********" 
+                type="password"
+                name="password"
+                value={credentials.password}
+                placeholder="••••••••"
                 onChange={handleChange}
                 disabled={loading}
+                autoComplete="current-password"
+                required
               />
             </label>
 
-            <Button type='submit' disabled={loading}>
-              {loading ? 'Iniciando Sesión...' : 'Iniciar Sesión'}
+            <Button
+              type="submit"
+              disabled={loading}
+            >
+              {loading
+                ? "Iniciando sesión..."
+                : "Iniciar sesión"}
             </Button>
           </form>
 
-          <Link to={'/register'} className={styles.link}>Crea una cuenta en React Shop Lab</Link>
+          <p className={styles.registerText}>
+            ¿Todavía no tienes una cuenta?
+          </p>
+
+          <Link
+            to="/register"
+            className={styles.link}
+          >
+            Crear una cuenta
+          </Link>
+
         </div>
       </section>
     </main>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

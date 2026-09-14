@@ -1,85 +1,136 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useMemo
+} from "react";
 import { useProducts } from "../../hooks/useProducts.js";
-import ProductGrid from "../../components/ProductGrid/ProductGrid.jsx"
-import StatusMessage from "../../components/StatusMessage/StatusMessage.jsx"
-import styles from "./ProductsPage.module.css"
+import ProductGrid from "../../components/ProductGrid/ProductGrid.jsx";
+import StatusMessage from "../../components/StatusMessage/StatusMessage.jsx";
+import styles from "./ProductsPage.module.css";
 
 function ProductsPage() {
-  const labelInputRef = useRef(null) // Creamos la variable para el hook
+  const inputRef = useRef(null);
 
-  const { products, loading, error } = useProducts() // Importamos las variables del hook
+  const {
+    products,
+    loading,
+    error
+  } = useProducts();
 
-  const [search, setSearch] = useState(""); // Estado para el buscador de productos
-  const [sortBy, setSortBy] = useState('name')
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("name");
 
-  // Filtramos lo que busca el usuario con el array de productos
   const visibleProducts = useMemo(() => {
     return products
-      .filter((product) => 
-        product.name.toLowerCase().includes(search.toLowerCase())
+      .filter((product) =>
+        product.name
+          .toLowerCase()
+          .includes(search.toLowerCase())
       )
       .sort((a, b) => {
-        if (sortBy === 'priceMin') {
-          return a.price - b.price 
-        } else if (sortBy === 'priceMax') {
-          return b.price - a.price
-        } else {
-          return a.name.localeCompare(b.name)
+        if (sortBy === "priceMin") {
+          return a.price - b.price;
         }
-      })
-  }, [products, search, sortBy])
+
+        if (sortBy === "priceMax") {
+          return b.price - a.price;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+  }, [products, search, sortBy]);
 
   useEffect(() => {
-    labelInputRef.current?.focus()
-  },[])
+    inputRef.current?.focus();
+  }, []);
 
   return (
-    <main className='page'>
+    <main className="page">
       <section className={styles.hero}>
 
-        <label className={styles.label} htmlFor="search" ref={labelInputRef}>
-          Buscar productos
-        </label>
+        <div className={styles.header}>
+          <h1>Productos</h1>
+        </div>
 
-        <input 
-          className={styles.input} 
-          type="text" 
-          id="search" 
-          placeholder="Buscar productos..." 
-          value={search}
-          onChange={(evento) => setSearch(evento.target.value)}
-        />
+        <div className={styles.filters}>
 
-        <select
-          className={styles.select}
-          value={sortBy}
-          onChange={(evento) => setSortBy(evento.target.value)}  
-        >
-          <option value='name'>Ordenar por nombre</option>
-          <option value='priceMax'>Ordenar por precio descendente</option>
-          <option value='priceMin'>Ordenar por precio ascendente</option>
-        </select>
-        
+          <label
+            htmlFor="search"
+            className={styles.srOnly}
+          >
+            Buscar productos
+          </label>
+
+          <input
+            ref={inputRef}
+            className={styles.input}
+            type="search"
+            id="search"
+            placeholder="Buscar productos..."
+            value={search}
+            onChange={(event) =>
+              setSearch(event.target.value)
+            }
+          />
+
+
+          <label
+            htmlFor="sort"
+            className={styles.srOnly}
+          >
+            Ordenar productos
+          </label>
+
+          <select
+            id="sort"
+            className={styles.select}
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(event.target.value)
+            }
+          >
+            <option value="name">
+              Nombre
+            </option>
+
+            <option value="priceMax">
+              Precio: mayor a menor
+            </option>
+
+            <option value="priceMin">
+              Precio: menor a mayor
+            </option>
+          </select>
+
+        </div>
       </section>
 
+
       {loading && (
-        <StatusMessage 
-          title='Cargando productos...' 
-          description='Esperando respuesta del backend...' 
+        <StatusMessage
+          title="Cargando productos..."
+          description="Esperando respuesta del backend..."
         />
       )}
 
+
       {error && (
-        <StatusMessage 
-          title='Ha ocurrido un error'
-          description={error}
+        <StatusMessage
+          title="Ha ocurrido un error"
+          description={error.message}
           variant="error"
         />
       )}
 
-      {!loading && !error && <ProductGrid products={visibleProducts}/>}
+
+      {!loading && !error && (
+        <ProductGrid
+          products={visibleProducts}
+        />
+      )}
     </main>
-  )
+  );
 }
 
-export default ProductsPage
+export default ProductsPage;

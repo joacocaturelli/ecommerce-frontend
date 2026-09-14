@@ -1,56 +1,176 @@
+/* =========================
+   BASE BUTTON
+========================= */
+
 .button {
-  background: var(--color-secondary);
-  border: 2px solid var(--color-primary);
-  border-radius: 999px;
-  color: black;
   position: relative;
-  z-index: 1;
-  overflow: hidden;
-  transition: all 250ms;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+
   cursor: pointer;
+
+  overflow: hidden;
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    transform 250ms ease,
+    box-shadow 250ms ease;
 }
 
+
+/* =========================
+   SIZES
+========================= */
+
 .medium {
-  padding: 15px 25px;
-  font-size: 17px;
+  min-height: 48px;
+
+  padding:
+    0.75rem
+    1.5rem;
+
+  font-size: var(--font-md);
 }
 
 .small {
-  padding: 5px 10px;
-  font-size: 0.9rem;
+  min-height: 40px;
+
+  padding:
+    0.6rem
+    1rem;
+
+  font-size: var(--font-sm);
 }
+
+
+/* =========================
+   COMMON
+========================= */
 
 .common {
   font-weight: 600;
 }
 
+
+/* =========================
+   CART
+========================= */
+
 .cart {
-  font-weight: 900;
-  font-size: 2rem;
+  font-weight: 700;
 }
 
-.button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  border-radius: 15px;
-  background-color: var(--color-primary);
-  z-index: -1;
-  transition: all 250ms;
-}
+
+/* =========================
+   HOVER
+========================= */
 
 .button:hover {
-  color: white;
-  border: 2px solid var(--color-primary);
-} 
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 
-.button:hover::before {
-  width: 100%;
+  box-shadow: var(--shadow-sm);
+
+  transform: translateY(-2px);
 }
 
+
+/* =========================
+   ACTIVE
+========================= */
+
 .button:active {
-  transform: scale(0.95);
+  transform: translateY(0) scale(0.98);
+
+  box-shadow: none;
+}
+
+
+/* =========================
+   FOCUS
+========================= */
+
+.button:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+
+/* =========================
+   ADMIN DANGER
+========================= */
+
+.adminDanger {
+  background-color: transparent;
+
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+
+  font-weight: 600;
+}
+
+.adminDanger:hover {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-text-light);
+}
+
+
+/* =========================
+   DISABLED
+========================= */
+
+.button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+  box-shadow: none;
+}
+
+.button:disabled:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+
+  transform: none;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .medium {
+    min-height: 46px;
+
+    padding:
+      0.7rem
+      1.25rem;
+  }
+
+  .small {
+    min-height: 38px;
+
+    padding:
+      0.55rem
+      0.9rem;
+  }
 }

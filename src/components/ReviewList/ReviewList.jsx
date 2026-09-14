@@ -13,77 +13,106 @@ function ReviewList({ productId, user }) {
     createReview,
     updateReview,
     deleteReview
-  } = useReviews(productId);
+  } = useReviews(productId)
 
-  const userReview = reviews.find((review) => review.userId === user?.id)
+  const userReview = reviews.find(
+    (review) => review.userId === user?.id
+  )
 
-  const filteredReviews = reviews.filter((review) => review.userId !== user?.id)
+  const filteredReviews = reviews.filter(
+    (review) => review.userId !== user?.id
+  )
 
   if (revLoading) {
     return (
-      <div className='container'>
+      <section className={styles.container}>
         <StatusMessage
-          title='Cargando reviews' 
-          description='Consultando opiniones de usuarios...' 
+          title="Cargando reviews"
+          description="Consultando opiniones de usuarios..."
         />
-      </div>
+      </section>
     )
   }
-  
+
   if (revError) {
     return (
-      <div className='container'>
-        <StatusMessage 
-          title='Error al cargar las reviews'
-          description={error}
+      <section className={styles.container}>
+        <StatusMessage
+          title="Error con las reviews"
+          description={revError}
           variant="error"
-          />
-      </div>
+        />
+      </section>
     )
   }
 
   return (
-    <section className='container'>
-      <h3>Reviews</h3>
+    <section className={styles.container}>
 
-      <ReviewForm 
-        review={userReview} 
-        onCreate={createReview} 
-        onUpdate={updateReview} 
+      <h2 className={styles.title}>
+        Reviews
+      </h2>
+
+      <ReviewForm
+        review={userReview}
+        onCreate={createReview}
+        onUpdate={updateReview}
         user={user}
       />
 
-      {reviews.length === 0 
-        ? 
-          <div className='container'>
-            <StatusMessage 
-              title='Sin Reviews'
-              description='El producto todavia no tiene valoraciones'
-            />
-          </div>
-        :
+      {reviews.length === 0 ? (
+        <StatusMessage
+          title="Sin reviews"
+          description="El producto todavía no tiene valoraciones"
+        />
+      ) : (
         <>
+
           {userReview && (
-              <article>
-                <StarRating rating={userReview.rating}/>
-                <p className={styles.comment}>{userReview.comment}</p>
-                <button onClick={deleteReview}>x</button>
-              </article>
-            )
-          }
+            <article className={styles.userReview}>
 
-          <div className={styles.reviewsContainer}>
+              <div className={styles.reviewHeader}>
+                <StarRating rating={userReview.rating} />
 
-            {filteredReviews.map((review) => (
-              <article key={review.userId}>
-                <StarRating rating={review.rating}/>
-                <p className={styles.comment}>{review.comment}</p>
-              </article>
-            ))}
-            
-          </div>
-        </> 
-      }
+                <button
+                  type="button"
+                  className={styles.deleteButton}
+                  onClick={deleteReview}
+                  aria-label="Eliminar review"
+                >
+                  Eliminar
+                </button>
+              </div>
+
+              <p className={styles.comment}>
+                {userReview.comment}
+              </p>
+
+            </article>
+          )}
+
+          {filteredReviews.length > 0 && (
+            <div className={styles.reviewsContainer}>
+
+              {filteredReviews.map((review) => (
+                <article
+                  className={styles.review}
+                  key={review.userId}
+                >
+                  <StarRating rating={review.rating} />
+
+                  <p className={styles.comment}>
+                    {review.comment}
+                  </p>
+                </article>
+              ))}
+
+            </div>
+          )}
+
+        </>
+      )}
+
     </section>
   )
 }

@@ -1,10 +1,22 @@
 import styles from './StatusMessage.module.css'
 
-function StatusMessage({title, description, variant = 'neutral'}) {
+function StatusMessage({
+  title,
+  description,
+  variant = 'neutral'
+}) {
+  const message =
+    typeof description === 'string'
+      ? description
+      : description?.message
+
   return (
     <section className={`${styles.box} ${styles[variant]}`}>
       <h2 className={styles.title}>{title}</h2>
-      <p className={styles.description}>{description}</p>
+
+      {message && (
+        <p className={styles.description}>{message}</p>
+      )}
     </section>
   )
 }

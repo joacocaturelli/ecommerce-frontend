@@ -4,11 +4,12 @@ function Button({
   children,
   size = 'medium',
   variant = 'common',
+  className = "",
   ...props
 }) {
   return (
-    <button 
-      className={ `${styles.button} ${styles[size]} ${styles[variant]}` }
+    <button
+      className={`${styles.button} ${styles[size]} ${styles[variant]} ${className}`}
       {...props}
     >
       {children}

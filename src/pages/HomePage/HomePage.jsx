@@ -1,39 +1,85 @@
-import { Link } from "react-router-dom"
-import Button from "../../components/Button/Button"
-import styles from './HomePage.module.css'
+import { Link } from "react-router-dom";
+import styles from "./HomePage.module.css";
 
-function HomePage () {
+function HomePage() {
   return (
-    <main className='page'>
-      <article className='container'>
+    <main className="page">
+      <section className={styles.hero}>
 
-        <div className={styles.infoContainer}>
-          <p className={styles.selection}>EDITORIAL SELECTION</p>
+        <div className={styles.content}>
 
-          <h1 className={styles.title}>Prendas, calzado y accesorios con una línea más sobria y atemporal.</h1>
-
-          <p className={styles.text}>
-            Descubre una selección pensada para vestir el día a día con equilibrio, 
-            comodidad y una estética más cuidada.
-          </p>
-        </div>
-
-        <div className={styles.linkContainer}>
-
-          <p className={styles.text2}>
-            Colección de temporada con envíos rápidos, 
-            cambios sencillos y una presentación más limpia del producto.
+          <p className={styles.eyebrow}>
+            Editorial selection
           </p>
 
-          <Button>
-            <Link to='/productos'>Ver colección</Link>
-          </Button>
+          <h1 className={styles.title}>
+            Prendas, calzado y accesorios con una línea más sobria y atemporal.
+          </h1>
+
+          <p className={styles.description}>
+            Descubre una selección pensada para vestir el día a día
+            con equilibrio, comodidad y una estética más cuidada.
+          </p>
+
+          <Link
+            to="/products"
+            className={styles.cta}
+          >
+            Ver colección
+            <span
+              className={styles.arrow}
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </Link>
 
         </div>
-        
-      </article>
+
+
+        <div
+          className={styles.visual}
+          aria-hidden="true"
+        >
+          <div className={styles.visualCard}>
+            <span className={styles.visualNumber}>
+              01
+            </span>
+
+            <div className={styles.visualText}>
+              <span>React Shop</span>
+              <strong>Lab</strong>
+            </div>
+
+            <span className={styles.visualLabel}>
+              Collection
+            </span>
+          </div>
+
+          <div className={styles.circle} />
+        </div>
+
+      </section>
+
+
+      <section className={styles.bottomSection}>
+        <div className={styles.bottomItem}>
+          <span>01</span>
+          <p>Selección cuidada</p>
+        </div>
+
+        <div className={styles.bottomItem}>
+          <span>02</span>
+          <p>Diseño atemporal</p>
+        </div>
+
+        <div className={styles.bottomItem}>
+          <span>03</span>
+          <p>Compra sencilla</p>
+        </div>
+      </section>
     </main>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getApiError } from "../../utils/apiError";
 import * as apiWishlist from "../../api/wishlist";
 
 export const getWishlistThunk = createAsyncThunk(
@@ -8,7 +9,7 @@ export const getWishlistThunk = createAsyncThunk(
       const result = await apiWishlist.getWishlist();
       return result;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "Error al obtener la wishlist");
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -23,9 +24,7 @@ export const addToWishlistThunk = createAsyncThunk(
 
       return wishlist;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Error al añadir el producto a la wishlist",
-      );
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -40,9 +39,7 @@ export const removeFromWishlistThunk = createAsyncThunk(
 
       return wishlist;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Error al eliminar el producto de la wishlist",
-      );
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -61,7 +58,7 @@ const wishlistSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // GetWihslist
+      // getWishlist
       .addCase(getWishlistThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -76,7 +73,7 @@ const wishlistSlice = createSlice({
         state.error = action.payload;
       })
 
-      // addToWihslist
+      // addToWishlist
       .addCase(addToWishlistThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -91,7 +88,7 @@ const wishlistSlice = createSlice({
         state.error = action.payload;
       })
 
-      // RemoveFromWihslist
+      // removeFromWishlist
       .addCase(removeFromWishlistThunk.pending, (state) => {
         state.loading = true;
         state.error = null;

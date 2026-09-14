@@ -1,15 +1,222 @@
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-2xl);
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.title {
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: var(--font-xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* =========================
+   USER REVIEW
+========================= */
+
+.userReview {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-sm);
+
+  width: 100%;
+
+  padding: var(--space-lg);
+
+  box-sizing: border-box;
+
+  background-color: var(--color-card);
+
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+
+/* =========================
+   REVIEW HEADER
+========================= */
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-md);
+}
+
+
+/* =========================
+   REVIEWS
+========================= */
+
 .reviewsContainer {
   width: 100%;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  );
+
   gap: var(--space-md);
-  min-width: 380px;
 }
 
-.rating {
-  font-weight: bold;
+
+/* =========================
+   REVIEW
+========================= */
+
+.review {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-sm);
+
+  min-width: 0;
+
+  padding: var(--space-lg);
+
+  box-sizing: border-box;
+
+  background-color: var(--color-card);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    transform 250ms ease;
 }
+
+.review:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   COMMENT
+========================= */
 
 .comment {
-  padding-left: 2px;
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: var(--font-sm);
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+
+  padding: 0.5rem 0.8rem;
+
+  border: 1px solid var(--color-danger);
+  border-radius: 999px;
+
+  background-color: transparent;
+
+  color: var(--color-danger);
+
+  font-family: inherit;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    transform 250ms ease;
+}
+
+.deleteButton:hover {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-text-light);
+
+  transform: translateY(-2px);
+}
+
+.deleteButton:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+.deleteButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .container {
+    gap: var(--space-xl);
+  }
+
+  .title {
+    font-size: var(--font-lg);
+  }
+
+  .reviewsContainer {
+    grid-template-columns: 1fr;
+
+    gap: var(--space-md);
+  }
+
+  .userReview,
+  .review {
+    padding: var(--space-md);
+  }
+
+  .reviewHeader {
+    align-items: flex-start;
+  }
 }

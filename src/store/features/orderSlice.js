@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getOrders, getOrderById } from "../../api/orders";
+import { getApiError } from "../../utils/apiError";
 
 export const getOrdersThunk = createAsyncThunk(
   "order/getOrders",
@@ -8,9 +9,7 @@ export const getOrdersThunk = createAsyncThunk(
       const orders = await getOrders();
       return orders;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.error || "Error al obtener las ordenes de compra",
-      );
+      return rejectWithValue(getApiError(error));
     }
   },
 );
@@ -22,7 +21,7 @@ export const getOrderByIdThunk = createAsyncThunk(
       const order = await getOrderById(orderId);
       return order;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "Error al obtener la orden de compra");
+      return rejectWithValue(getApiError(error));
     }
   },
 );

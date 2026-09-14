@@ -1,5 +1,175 @@
+/* =========================
+   ORDER CARD
+========================= */
+
 .orderCard {
-  background-color: aliceblue;
-  border-radius: 15px ;
-  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-lg);
+
+  width: 100%;
+
+  padding: var(--space-lg);
+
+  box-sizing: border-box;
+
+  background-color: var(--color-card);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease,
+    transform 250ms ease;
+}
+
+.orderCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   ORDER INFO
+========================= */
+
+.orderInfo {
+  min-width: 0;
+}
+
+.orderInfo h3 {
+  margin: 0 0 var(--space-md);
+
+  color: var(--color-text);
+
+  font-size: var(--font-lg);
+  font-weight: 700;
+  line-height: 1.3;
+
+  word-break: break-word;
+}
+
+.orderInfo p {
+  margin: 0 0 var(--space-xs);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-sm);
+  line-height: 1.5;
+}
+
+.orderInfo p span {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+
+/* =========================
+   TOTAL
+========================= */
+
+.total {
+  margin-top: var(--space-md) !important;
+
+  color: var(--color-primary) !important;
+
+  font-size: var(--font-lg) !important;
+  font-weight: 700;
+}
+
+
+/* =========================
+   ORDER BUTTON
+========================= */
+
+.orderButton {
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40px;
+
+  padding: 0.55rem 1rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+
+  background-color: var(--color-primary);
+
+  color: var(--color-text-light);
+
+  font-size: var(--font-sm);
+  font-weight: 600;
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease,
+    transform 250ms ease;
+}
+
+.orderButton:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+
+  transform: translateY(-2px);
+}
+
+.orderButton:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+.orderButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .orderCard {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: var(--space-md);
+
+    padding: var(--space-md);
+
+    border-radius: var(--radius-md);
+  }
+
+  .orderInfo h3 {
+    margin-bottom: var(--space-sm);
+
+    font-size: var(--font-md);
+  }
+
+  .orderInfo p {
+    font-size: var(--font-sm);
+  }
+
+  .total {
+    margin-top: var(--space-md) !important;
+
+    font-size: var(--font-md) !important;
+  }
+
+  .orderButton {
+    width: 100%;
+  }
 }

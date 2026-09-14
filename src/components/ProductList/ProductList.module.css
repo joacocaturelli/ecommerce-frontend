@@ -1,16 +1,40 @@
+/* =========================
+   LIST
+========================= */
+
 .list {
-  background-color: rgba(255, 255, 255, 0.19);
-  margin: var(--space-xl) var(--space-md);
-  padding: var(--space-2xl) var(--space-xl);
-  border-radius: 25px;
-  box-shadow:
-    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset
-  ;
-  
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(400px, 1fr)
+  );
+
+  gap: var(--space-lg);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-width: 380px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .list {
+    grid-template-columns: 1fr;
+
+    gap: var(--space-md);
+  }
 }

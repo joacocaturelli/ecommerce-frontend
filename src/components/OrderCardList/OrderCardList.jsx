@@ -1,25 +1,44 @@
 import { NavLink } from 'react-router-dom'
-import Button from '../Button/Button'
 import styles from './OrderCardList.module.css'
 
-function OrderCardList({order, num}) {
-  const [year, month, day] = order.createdAt.split('T')[0].split('-')
+function OrderCardList({ order, num }) {
+  const [year, month, day] = order.createdAt
+    .split('T')[0]
+    .split('-')
 
   return (
-    <section className={styles.orderCard}>
-      <div>
-        <h3>Pedido #{num}</h3>
-        <p>Id: {order.id}</p>
-        <h2>Total: {order.total}</h2>
-        <p>Fecha: {day}/{month}/{year}</p>
+    <article className={styles.orderCard}>
+
+      <div className={styles.orderInfo}>
+        <h3>
+          Pedido #{num}
+        </h3>
+
+        <p>
+          <span>Id:</span> {order.id}
+        </p>
+
+        <p>
+          <span>Estado:</span> {order.status}
+        </p>
+
+        <p>
+          <span>Fecha:</span> {day}/{month}/{year}
+        </p>
+
+        <p className={styles.total}>
+          Total: {order.total}€
+        </p>
       </div>
 
-      <Button>
-        <NavLink to={`/order/${order.id}`}>
-          Ver pedido
-        </NavLink>
-      </Button>
-    </section>
+      <NavLink
+        to={`/order/${order.id}`}
+        className={styles.orderButton}
+      >
+        Ver pedido
+      </NavLink>
+
+    </article>
   )
 }
 

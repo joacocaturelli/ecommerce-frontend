@@ -1,0 +1,82 @@
+.pageContainer {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--padding-page-desktop);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: var(--font-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-3xl);
+  line-height: 1.1;
+}
+
+.description {
+  max-width: 650px;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-md);
+  line-height: 1.5;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.formContainer {
+  width: 100%;
+  padding: var(--space-xl);
+  box-sizing: border-box;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-card);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .pageContainer {
+    padding: var(--space-lg) var(--padding-page-mobile);
+    gap: var(--space-lg);
+  }
+
+  .header h1 {
+    font-size: var(--font-2xl);
+  }
+
+  .description {
+    font-size: var(--font-sm);
+  }
+
+  .formContainer {
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+  }
+}

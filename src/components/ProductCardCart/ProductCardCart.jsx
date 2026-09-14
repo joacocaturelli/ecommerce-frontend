@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../Button/Button'
 import styles from './ProductCardCart.module.css'
 
-function ProductCardCart ({product, quantity}) {
+function ProductCardCart({ product, quantity }) {
   const dispatch = useDispatch()
 
   const productId = product.id
@@ -16,28 +16,53 @@ function ProductCardCart ({product, quantity}) {
   return (
     <article className={styles.card}>
 
+      <Link
+        to={`/products/${productId}`}
+        className={styles.imageContainer}
+      >
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          className={styles.image}
+        />
+      </Link>
+
       <div className={styles.productHeader}>
-
         <p className={product.stock > 0 ? styles.stockOk : styles.stockNo}>
-          {product.stock > 0 ? 'En Stock' : 'Sin Stock'}
+          {product.stock > 0 ? 'En stock' : 'Sin stock'}
         </p>
-
       </div>
 
-      <Link to={`/productos/${productId}`}>
-        <h2 className={styles.title}>{product.name}</h2>
-        <p className={styles.description}>{product.description}</p>
+      <Link
+        to={`/products/${productId}`}
+        className={styles.productInfo}
+      >
+        <h2 className={styles.title}>
+          {product.name}
+        </h2>
+
+        <p className={styles.description}>
+          {product.description}
+        </p>
       </Link>
 
       <div className={styles.productFooter}>
+        <h3 className={styles.price}>
+          {product.price}€
+        </h3>
 
-        <h3 className={styles.price}>{product.price}€</h3>
-        <p>Cantidad: {quantity}</p>
+        <p className={styles.quantity}>
+          Cantidad: {quantity}
+        </p>
 
-        <Button onClick={handleRemoveToCart} size='small'>
-          Eliminar del carrito
-        </Button>
-
+        <div className={styles.removeButton}>
+          <Button
+            onClick={handleRemoveToCart}
+            size="small"
+          >
+            Eliminar del carrito
+          </Button>
+        </div>
       </div>
 
     </article>

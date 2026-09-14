@@ -1,9 +1,121 @@
+/* =========================
+   WISHLIST BUTTON
+========================= */
+
 .toggleFav {
-  font-size: 1.9rem;
-  font-weight: 700;
+  width: 42px;
+  height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+
+  background-color: var(--color-card);
+  color: var(--color-text-muted);
+
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color 250ms ease,
+    background-color 250ms ease,
+    border-color 250ms ease,
+    transform 250ms ease,
+    box-shadow 250ms ease;
 }
 
+
+/* =========================
+   HOVER
+========================= */
+
 .toggleFav:hover {
-  cursor: pointer;
-  transform: scale(1.5);
+  color: var(--color-primary);
+
+  background-color: var(--color-surface);
+
+  border-color: var(--color-primary);
+
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================
+   ACTIVE
+========================= */
+
+.active {
+  color: var(--color-primary);
+
+  border-color: var(--color-primary);
+
+  background-color: var(--color-surface);
+}
+
+.active:hover {
+  color: var(--color-primary-hover);
+
+  border-color: var(--color-primary-hover);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   HEART
+========================= */
+
+.toggleFav span {
+  display: block;
+
+  transform: scale(1);
+
+  transition: transform 250ms ease;
+}
+
+.toggleFav:hover span {
+  transform: scale(1.08);
+}
+
+
+/* =========================
+   FOCUS
+========================= */
+
+.toggleFav:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+
+/* =========================
+   ACTIVE CLICK
+========================= */
+
+.toggleFav:active {
+  transform: translateY(0) scale(0.96);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .toggleFav {
+    width: 40px;
+    height: 40px;
+
+    font-size: 1.25rem;
+  }
 }

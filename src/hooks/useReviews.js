@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getApiError } from "../utils/apiError";
+import { showError } from "../store/features/toastSlice";
 import * as apiReview from "../api/reviews";
 
 export function useReviews(productId) {
+  const dispatch = useDispatch();
+
   const [reviews, setReviews] = useState([]);
   const [revLoading, setRevLoading] = useState(false);
   const [revError, setRevError] = useState(null);
@@ -20,8 +25,11 @@ export function useReviews(productId) {
       setRevError(null);
 
       await fetchReviews();
-    } catch (err) {
-      setRevError(err.message);
+    } catch (error) {
+      const apiError = getApiError(error);
+
+      setRevError(apiError);
+      dispatch(showError(apiError.message));
     } finally {
       setRevLoading(false);
     }
@@ -36,8 +44,11 @@ export function useReviews(productId) {
 
       await apiReview.createReview(productId, rating, comment);
       await fetchReviews();
-    } catch (err) {
-      setRevError(err.message);
+    } catch (error) {
+      const apiError = getApiError(error);
+
+      setRevError(apiError);
+      dispatch(showError(apiError.message));
     } finally {
       setRevLoading(false);
     }
@@ -50,8 +61,11 @@ export function useReviews(productId) {
 
       await apiReview.updateReview(productId, rating, comment);
       await fetchReviews();
-    } catch (err) {
-      setRevError(err.message);
+    } catch (error) {
+      const apiError = getApiError(error);
+
+      setRevError(apiError);
+      dispatch(showError(apiError.message));
     } finally {
       setRevLoading(false);
     }
@@ -64,8 +78,11 @@ export function useReviews(productId) {
 
       await apiReview.deleteReview(productId);
       await fetchReviews();
-    } catch (err) {
-      setRevError(err.message);
+    } catch (error) {
+      const apiError = getApiError(error);
+
+      setRevError(apiError);
+      dispatch(showError(apiError.message));
     } finally {
       setRevLoading(false);
     }

@@ -1,2 +1,48 @@
+/* =========================
+   STAR RATING
+========================= */
+
 .stars {
-  font-size: 1.5rem;}
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 1.15rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+
+  white-space: nowrap;
+}
+
+
+/* =========================
+   FILLED STARS
+========================= */
+
+.filled {
+  color: var(--color-primary);
+
+  transition: color 250ms ease;
+}
+
+
+/* =========================
+   EMPTY STARS
+========================= */
+
+.empty {
+  color: var(--color-border);
+
+  transition: color 250ms ease;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .stars {
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+  }
+}
