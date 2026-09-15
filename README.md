@@ -14,7 +14,7 @@ https://mitienditaonline.netlify.app
 
 Este repositorio forma parte de una aplicación Full Stack desarrollada conjuntamente con un backend independiente.
 
-- **Backend:** https://github.com/joacocaturelli/projectBackEnd
+- **Backend:** https://github.com/joacocaturelli/ecommerce-api
 - **Documentación API:** https://backend-e-commerce-keoz.onrender.com/api/docs
 
 ## Funcionalidades
@@ -136,7 +136,7 @@ Se utilizan **CSS Modules** y técnicas de diseño responsive para mantener una 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/joacocaturelli/projectFrontEnd---React.git
+git clone https://github.com/joacocaturelli/ecommerce-frontend.git
 cd projectFrontEnd---React
 ```
 
