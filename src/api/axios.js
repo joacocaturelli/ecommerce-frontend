@@ -2,11 +2,8 @@ import axios from "axios";
 import { store } from "../store/store";
 import { clearAuth } from "../store/features/authSlice.js";
 
-// Esta es la manera en que se leen las variables .env con react/vite
-const API_URL = import.meta.env.VITE_API_URL;
-
 const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: "/api",
   withCredentials: true,
 });
 
